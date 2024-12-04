@@ -1,0 +1,177 @@
+build/.DS_Store
+build/darwin/.DS_Store
+build/darwin/wbxnkzdtjl.pkg
+build/darwin/wbxnkzdtjl.app/Contents/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/PkgInfo
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/cef_sandbox.a
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/liblcl.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Libraries/libEGL.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Libraries/libGLESv2.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Libraries/libvk_swiftshader.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Libraries/vk_swiftshader_icd.json
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/chrome_100_percent.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/chrome_200_percent.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/icudtl.dat
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/resources.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/snapshot_blob.bin
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/v8_context_snapshot.arm64.bin
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/af.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/am.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ar.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/bg.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/bn.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ca.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/cs.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/da.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/de.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/el.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/en.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/en_GB.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/es.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/es_419.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/et.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/fa.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/fi.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/fil.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/fr.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/gu.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/he.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/hi.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/hr.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/hu.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/id.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/it.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ja.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/kn.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ko.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/lt.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/lv.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ml.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/mr.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ms.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/nb.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/nl.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/pl.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/pt_BR.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/pt_PT.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ro.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ru.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/sk.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/sl.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/sr.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/sv.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/sw.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ta.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/te.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/th.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/tr.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/uk.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/ur.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/vi.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/zh_CN.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources/zh_TW.lproj/locale.pak
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (GPU).app/Contents/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (GPU).app/Contents/PkgInfo
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (GPU).app/Contents/Frameworks/liblcl.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (GPU).app/Contents/MacOS/wbxnkzdtjl Helper (GPU)
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Plugin).app/Contents/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Plugin).app/Contents/PkgInfo
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Plugin).app/Contents/Frameworks/liblcl.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Plugin).app/Contents/MacOS/wbxnkzdtjl Helper (Plugin)
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Renderer).app/Contents/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Renderer).app/Contents/PkgInfo
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Renderer).app/Contents/Frameworks/liblcl.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper (Renderer).app/Contents/MacOS/wbxnkzdtjl Helper (Renderer)
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper.app/Contents/Info.plist
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper.app/Contents/PkgInfo
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper.app/Contents/Frameworks/liblcl.dylib
+build/darwin/wbxnkzdtjl.app/Contents/Frameworks/wbxnkzdtjl Helper.app/Contents/MacOS/wbxnkzdtjl Helper
+build/darwin/wbxnkzdtjl.app/Contents/MacOS/wbxnkzdtjl
+build/darwin/wbxnkzdtjl.app/Contents/Resources/icon.icns
+build/tmp/icon.icns
+build/tmp/icon.png
+build/tmp/icons.iconset/icon_16x16.png
+build/tmp/icons.iconset/icon_16x16@2x.png
+build/tmp/icons.iconset/icon_32x32.png
+build/tmp/icons.iconset/icon_32x32@2x.png
+build/tmp/icons.iconset/icon_128x128.png
+build/tmp/icons.iconset/icon_128x128@2x.png
+build/tmp/icons.iconset/icon_256x256.png
+build/tmp/icons.iconset/icon_256x256@2x.png
+build/tmp/icons.iconset/icon_512x512.png
+build/tmp/icons.iconset/icon_512x512@2x.png
+energy/EnergyFramework/cef_sandbox.a
+energy/EnergyFramework/liblcl.dylib
+energy/EnergyFramework/Chromium Embedded Framework.framework/Chromium Embedded Framework
+energy/EnergyFramework/Chromium Embedded Framework.framework/Libraries/libEGL.dylib
+energy/EnergyFramework/Chromium Embedded Framework.framework/Libraries/libGLESv2.dylib
+energy/EnergyFramework/Chromium Embedded Framework.framework/Libraries/libvk_swiftshader.dylib
+energy/EnergyFramework/Chromium Embedded Framework.framework/Libraries/vk_swiftshader_icd.json
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/chrome_100_percent.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/chrome_200_percent.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/gpu_shader_cache.bin
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/icudtl.dat
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/Info.plist
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/resources.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/snapshot_blob.bin
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/v8_context_snapshot.arm64.bin
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/af.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/am.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ar.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/bg.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/bn.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ca.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/cs.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/da.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/de.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/el.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/en.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/en_GB.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/es.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/es_419.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/et.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/fa.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/fi.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/fil.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/fr.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/gu.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/he.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/hi.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/hr.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/hu.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/id.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/it.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ja.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/kn.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ko.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/lt.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/lv.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ml.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/mr.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ms.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/nb.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/nl.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/pl.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/pt_BR.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/pt_PT.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ro.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ru.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/sk.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/sl.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/sr.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/sv.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/sw.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ta.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/te.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/th.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/tr.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/uk.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/ur.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/vi.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/zh_CN.lproj/locale.pak
+energy/EnergyFramework/Chromium Embedded Framework.framework/Resources/zh_TW.lproj/locale.pak
+EnergyFrameworkDownloadCache/cef_binary_118.7.1+g99817d2+chromium-118.0.5993.119_macosarm64_minimal.tar
+EnergyFrameworkDownloadCache/cef_binary_118.7.1+g99817d2+chromium-118.0.5993.119_macosarm64_minimal.tar.bz2
+EnergyFrameworkDownloadCache/liblcl.MacOSARM64.zip
