@@ -6,13 +6,19 @@
 const constantRouterMap = [
   {
     path: '/',
-    name: 'Example',
-    redirect: { name: 'ExampleHelloIndex' },
+    name: 'Boss',
+    component: () => import('@/layouts/AppSider.vue'),
+    redirect: { name: 'Bosscollection' },
     children: [
       {
-        path: '/example',
-        name: 'ExampleHelloIndex',
-        component: () => import('@/views/example/hello/Index.vue')
+        path: '/Bosscollection',
+        name: 'Bosscollection',
+        component: () => import('@/views/boss/collection/Index.vue')
+      },
+      {
+        path: '/Bossdelivery',
+        name: 'Bossdelivery',
+        component: () => import('@/views/boss/delivery/Index.vue')
       },
     ]
   },
