@@ -50,12 +50,12 @@ jobs:
       # cli 编译和打包, -o -f 改成你自己的
       - name: Build and Package AMD64
         run: |
-          cd $RUNNER_WORKSPACE/demo-actions
+          cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
           energy build -o="demo-amd64.exe"
           energy package -f="demo-amd64.exe" -o="demo-windows64.exe" -c
           
-          mv "$RUNNER_WORKSPACE/demo-actions/build/windows/demo-windows64.exe" D:/app/install
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/demo-windows64.exe" D:/app/install
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -69,12 +69,12 @@ jobs:
       # cli 编译和打包, -o -f 改成你自己的
       - name: Build and Package 32
         run: |
-          cd $RUNNER_WORKSPACE/demo-actions
+          cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
           energy build -o="demo-32.exe" --arch="386"
           energy package -f="demo-32.exe" -o="demo-windows32.exe" -c
           
-          mv "$RUNNER_WORKSPACE/demo-actions/build/windows/demo-windows32.exe" D:/app/install
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/demo-windows32.exe" D:/app/install
         shell: bash
 
       - name: Build and Package END
