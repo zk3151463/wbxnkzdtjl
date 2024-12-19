@@ -52,7 +52,7 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="demo-amd64"
+          energy build -o="demo-amd64" 
           energy package -f="demo-amd64" -o="demo-macosx64" --pkg
           
           mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/demo-macosx64.pkg" "$RUNNER_WORKSPACE/app/install"
@@ -70,7 +70,7 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
-          energy build -o="demo-arm64"
+          energy build -o="demo-arm64" --arch=arm64
           energy package -f="demo-arm64" -o="demo-macosarm64" --pkg
           
           mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/demo-macosarm64.pkg" "$RUNNER_WORKSPACE/app/install"
