@@ -5,7 +5,9 @@ on:
   push:
     tags:
       - 'v*.*.*'
-
+permissions:
+  contents: write  # 确保有足够权限进行 release 创建
+  workflow: write
 jobs:
   Linux-armv7l:
     runs-on: ${{ matrix.operating-system }}
