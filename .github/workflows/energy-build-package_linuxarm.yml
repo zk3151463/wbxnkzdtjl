@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write
+
 jobs:
   Linux-armv7l:
     runs-on: ${{ matrix.operating-system }}
