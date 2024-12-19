@@ -1,0 +1,85 @@
+name: Energy Build and Package MacOS
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  macos-amd64-arm64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macos-13 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+
+      # 创建基础环境目录 - 不修改
+      - name: Config Base Environment
+        run: |
+          mkdir $RUNNER_WORKSPACE/app
+          mkdir $RUNNER_WORKSPACE/app/install
+
+      # 安装 energy cli - 不修改
+      - name: Install ENERGY CLI
+        run: |
+          cd $RUNNER_WORKSPACE/app
+          git clone https://github.com/energye/energy.git
+          cd energy/cmd/energy
+          go install
+          energy cli -v
+
+      # MacOSX64 安装开发环境 - 根据情况修改
+      - name: Install ENERGY CEF AMD-64
+        run: |
+          cd $RUNNER_WORKSPACE/app
+          energy install --all
+          energy env
+
+      # 编译和打包 - 根据情况修改
+      - name: Build and Package AMD64
+        run: |
+          cd $RUNNER_WORKSPACE/demo-actions
+          
+          energy build -o="demo-amd64"
+          energy package -f="demo-amd64" -o="demo-macosx64" --pkg
+          
+          mv "$RUNNER_WORKSPACE/demo-actions/build/darwin/demo-macosx64.pkg" "$RUNNER_WORKSPACE/app/install"
+
+      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
+      - name: Install ENERGY CEF ARM-64
+        run: |
+          cd $RUNNER_WORKSPACE/app
+          energy install --all --arch=arm64
+          energy env
+
+      # 编译和打包, 删除 build 文件夹 - 根据情况修改
+      - name: Build and Package ARM64
+        run: |
+          cd $RUNNER_WORKSPACE/demo-actions
+          rm -rf build
+          
+          energy build -o="demo-arm64"
+          energy package -f="demo-arm64" -o="demo-macosarm64" --pkg
+          
+          mv "$RUNNER_WORKSPACE/demo-actions/build/darwin/demo-macosarm64.pkg" "$RUNNER_WORKSPACE/app/install"
+
+      - name: Build and Package END
+        run: |
+          ls -al $RUNNER_WORKSPACE/app/install
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "../app/install/**"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
