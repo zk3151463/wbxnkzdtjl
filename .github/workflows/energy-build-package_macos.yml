@@ -56,10 +56,10 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="漫客工具箱通用版" 
-          energy package -f="漫客工具箱通用版" -o="漫客工具箱通用版" --pkg
+          energy build -o="wbxnkamd" 
+          energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱通用版.pkg" "$RUNNER_WORKSPACE/app/install"
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install"
 
       # MacOSARM64 安装 ARM64 架构 - 根据情况修改
       - name: Install ENERGY CEF ARM-64
@@ -74,10 +74,10 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
-          energy build -o="漫客工具箱M1芯片" --arch=arm64
-          energy package -f="漫客工具箱M1芯片" -o="漫客工具箱M1芯片" --pkg
+          energy build -o="wbxnkM1" --arch=arm64
+          energy package -f="wbxnkM1" -o="wbxnkM1" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱M1芯片.pkg" "$RUNNER_WORKSPACE/app/install"
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
 
       - name: Build and Package END
         run: |
