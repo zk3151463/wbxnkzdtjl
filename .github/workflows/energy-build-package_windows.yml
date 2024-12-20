@@ -59,10 +59,10 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="demo-amd64.exe"
-          energy package -f="demo-amd64.exe" -o="漫客工具箱AMD.exe" -c
+          energy build -o="漫客工具箱AMD64.exe"
+          energy package -f="漫客工具箱AMD64.exe" -o="漫客工具箱AMD64.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/漫客工具箱AMD.exe" D:/app/install
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/漫客工具箱AMD64.exe" D:/app/install
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -78,8 +78,8 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="demo-32.exe" --arch="386"
-          energy package -f="demo-32.exe" -o="漫客工具箱32位版.exe" -c
+          energy build -o="漫客工具箱32位版.exe" --arch="386"
+          energy package -f="漫客工具箱32位版.exe" -o="漫客工具箱32位版.exe" -c
           
           mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/漫客工具箱32位版.exe" D:/app/install
         shell: bash
