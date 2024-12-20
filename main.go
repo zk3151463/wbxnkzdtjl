@@ -32,7 +32,7 @@ func main() {
 	//窗口的标题
 	cef.BrowserWindow.Config.Title = "漫客工具箱"
 	//窗口宽高
-	cef.BrowserWindow.Config.Width = 900
+	cef.BrowserWindow.Config.Width = 901
 	cef.BrowserWindow.Config.Height = 561
 	cef.BrowserWindow.Config.MinHeight = 561
 	cef.BrowserWindow.Config.MinWidth = 900
