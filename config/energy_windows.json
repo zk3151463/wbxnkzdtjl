@@ -10,6 +10,8 @@
     "icon": "@/resources/icon.ico",
     "companyName": "wbxnkzdtjl",
     "productName": "wbxnkzdtjl",
+    "cfBundleIdentifier": "cc.wbxnk.mkgjxr",
+    "Identifier": "cc.wbxnk.mkgjx",
     "fileVersion": "1.0.0",
     "productVersion": "1.0.0",
     "copyright": "Copyright.....",
@@ -22,7 +24,7 @@
     "icon": "@/resources/icon.ico",
     "unIcon": "@/resources/icon.ico",
     "license": "",
-    "language": "english",
+    "language": "SimpChinese",
     "requestExecutionLevel": "admin",
     "compress": "7za",
     "compressName": "framework.7z"
