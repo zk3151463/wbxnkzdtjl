@@ -17,6 +17,10 @@ jobs:
       matrix:
         operating-system: [ macos-13 ]
 
+    env:
+      LANG: zh_CN.UTF-8
+      LC_ALL: zh_CN.UTF-8
+
     steps:
       - uses: actions/checkout@v4
 
