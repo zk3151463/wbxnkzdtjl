@@ -5,7 +5,7 @@ on:
   push:
     tags:
       - 'v*.*.*'
-      
+
 permissions:
   contents: write
 
@@ -56,9 +56,9 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
           energy build -o="demo-amd64.exe"
-          energy package -f="demo-amd64.exe" -o="demo-windows64.exe" -c
+          energy package -f="demo-amd64.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/demo-windows64.exe" D:/app/install
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/漫客工具箱.exe" D:/app/install
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -75,9 +75,9 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
           energy build -o="demo-32.exe" --arch="386"
-          energy package -f="demo-32.exe" -o="demo-windows32.exe" -c
+          energy package -f="demo-32.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/demo-windows32.exe" D:/app/install
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/漫客工具箱.exe" D:/app/install
         shell: bash
 
       - name: Build and Package END

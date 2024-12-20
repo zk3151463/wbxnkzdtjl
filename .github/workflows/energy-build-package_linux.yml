@@ -81,12 +81,12 @@ jobs:
             cd /app/wbxnkzdtjl
             go env -w GOFLAGS=-buildvcs=false
             go mod tidy
-            energy build -o demo
-            file demo
-            energy package -f demo -o demo-linux32.deb
+            energy build -o wbxnkzdtjl
+            file wbxnkzdtjl
+            energy package -f wbxnkzdtjl -o wbxnkzdtjl-linux32.deb
 
             # 7. 将安装包移动到 /app/install 目录
-            mv /app/wbxnkzdtjl/build/linux/demo-linux32.deb  /app/install
+            mv /app/wbxnkzdtjl/build/linux/wbxnkzdtjl-linux32.deb  /app/install
 
       - name: Build and Package END
         run: |
@@ -163,12 +163,12 @@ jobs:
             cd /app/wbxnkzdtjl
             # 要设置一下
             go env -w GOFLAGS=-buildvcs=false
-            energy build -o demo
-            file demo
-            energy package -f demo -o demo-linux64.deb
+            energy build -o wbxnkzdtjl
+            file wbxnkzdtjl
+            energy package -f wbxnkzdtjl -o wbxnkzdtjl-linux64.deb
 
             # 6. 将安装包移动到 /app/install 目录
-            mv /app/wbxnkzdtjl/build/linux/demo-linux64.deb  /app/install
+            mv /app/wbxnkzdtjl/build/linux/wbxnkzdtjl-linux64.deb  /app/install
 
       - name: Build and Package END
         run: |
@@ -236,11 +236,11 @@ jobs:
 
             cd /app/wbxnkzdtjl
             go env -w GOFLAGS=-buildvcs=false
-            energy build -o demo
-            file demo
-            energy package -f demo -o demo-linuxarm64.deb
+            energy build -o wbxnkzdtjl
+            file wbxnkzdtjl
+            energy package -f wbxnkzdtjl -o wbxnkzdtjl-linuxarm64.deb
 
-            mv /app/wbxnkzdtjl/build/linux/demo-linuxarm64.deb  /app/install
+            mv /app/wbxnkzdtjl/build/linux/wbxnkzdtjl-linuxarm64.deb  /app/install
 
       - name: Build and Package END
         run: |
