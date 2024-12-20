@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write
+
 jobs:
   Linux-32:
     runs-on: ${{ matrix.operating-system }}
