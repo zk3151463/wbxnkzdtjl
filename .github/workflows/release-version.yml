@@ -1,0 +1,54 @@
+name: Release Version
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  windows-64:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-2019]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir D:/clis
+        shell: bash
+
+      - name: Build CLI
+        run: |
+          cd ./cmd/energy/md5
+          go install
+          cd ../
+          ./build.bat
+          ./compress-zip.bat
+          
+          mv md5.txt D:/clis
+          mv energy-*.zip D:/clis
+        shell: bash
+
+      - name: Build CLI END
+        run: |
+          ls -l D:/clis
+        shell: bash
+
+      - name: Release CLI
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: D:/clis/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
