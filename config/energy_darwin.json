@@ -1,7 +1,7 @@
 {
   "name": "漫客工具箱",
   "projectPath": "@",
-  "frameworkPath": "$ENERGY_HOME",
+  "frameworkPath": "",
   "assetsDir": "assets",
   "outputFilename": "漫客工具箱",
   "helperFilePath": "",
