@@ -56,17 +56,14 @@ jobs:
         run: |
           # 确保在正确的目录
           echo "当前目录: $(pwd)"
-          
-          # 检查代码库是否正确检出
-          if [ ! -d "$GITHUB_WORKSPACE" ]; then
-            echo "Error: GITHUB_WORKSPACE 不存在"
-            exit 1
-          fi
-          
-          # 切换到正确的工作目录
           cd $GITHUB_WORKSPACE
           
-          # 确保构建目录存在
+          # 检查 energy 环境
+          echo "检查 energy 环境..."
+          energy env
+          
+          # 清理并创建构建目录
+          rm -rf build
           mkdir -p build/darwin
           
           echo "开始 AMD64 构建..."
@@ -74,8 +71,8 @@ jobs:
           echo "项目结构："
           ls -la
           
-          # 构建项目
-          energy build -o="wbxnkamd" -v
+          # 构建项目，添加更多参数以获取详细信息
+          energy build -o="wbxnkamd"  --debug
           
           echo "构建完成，检查构建结果..."
           if [ ! -d "build" ]; then
@@ -87,26 +84,32 @@ jobs:
           ls -la build/darwin
           
           echo "开始打包..."
-          energy package -f="wbxnkamd" -o="wbxnkamd" --pkg -v
+          # 添加 --debug 参数获取更多打包信息
+          energy package -f="wbxnkamd" -o="wbxnkamd" --pkg -v --debug --skip-sign
           
           echo "打包完成，检查输出..."
           ls -la build/darwin
           
+          # 查找所有生成的文件
+          echo "查找所有生成的文件..."
+          find build -type f
+          
           # 确保安装目录存在
           mkdir -p "$RUNNER_WORKSPACE/app/install"
           
-          # 查找所有 pkg 文件
+          # 尝试查找 pkg 文件（不区分大小写）
           echo "查找 pkg 文件..."
-          find . -name "*.pkg"
+          PKG_FILE=$(find . -iname "*.pkg" -type f)
           
-          # 复制 pkg 文件
-          if [ -f "build/darwin/wbxnkamd.pkg" ]; then
-            echo "找到 pkg 文件，开始复制..."
-            cp "build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install/"
+          if [ ! -z "$PKG_FILE" ]; then
+            echo "找到 pkg 文件: $PKG_FILE"
+            cp "$PKG_FILE" "$RUNNER_WORKSPACE/app/install/"
           else
-            echo "Error: wbxnkamd.pkg not found"
+            echo "Error: 未找到 pkg 文件"
             echo "完整目录结构："
             ls -R
+            echo "build 目录内容："
+            find build -type f -exec ls -l {} \;
             exit 1
           fi
 
@@ -120,13 +123,13 @@ jobs:
       # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
-          # 确保在正确的目录
-          echo "当前目录: $(pwd)"
-          
-          # 切换到正确的工作目录
           cd $GITHUB_WORKSPACE
           
-          # 清理并重新创建构建目录
+          # 检查 energy 环境
+          echo "检查 energy 环境..."
+          energy env
+          
+          # 清理并创建构建目录
           rm -rf build
           mkdir -p build/darwin
           
@@ -135,8 +138,8 @@ jobs:
           echo "项目结构："
           ls -la
           
-          # 构建项目
-          energy build -o="wbxnkarm" --arch=arm64 -v
+          # 构建项目，添加更多参数以获取详细信息
+          energy build -o="wbxnkarm" --arch=arm64  --debug
           
           echo "构建完成，检查构建结果..."
           if [ ! -d "build" ]; then
@@ -148,26 +151,32 @@ jobs:
           ls -la build/darwin
           
           echo "开始打包..."
-          energy package -f="wbxnkarm" -o="wbxnkarm" --pkg -v
+          # 添加 --debug 参数获取更多打包信息
+          energy package -f="wbxnkarm" -o="wbxnkarm" --pkg -v --debug --skip-sign
           
           echo "打包完成，检查输出..."
           ls -la build/darwin
           
+          # 查找所有生成的文件
+          echo "查找所有生成的文件..."
+          find build -type f
+          
           # 确保安装目录存在
           mkdir -p "$RUNNER_WORKSPACE/app/install"
           
-          # 查找所有 pkg 文件
+          # 尝试查找 pkg 文件（不区分大小写）
           echo "查找 pkg 文件..."
-          find . -name "*.pkg"
+          PKG_FILE=$(find . -iname "*.pkg" -type f)
           
-          # 复制 pkg 文件
-          if [ -f "build/darwin/wbxnkarm.pkg" ]; then
-            echo "找到 pkg 文件，开始复制..."
-            cp "build/darwin/wbxnkarm.pkg" "$RUNNER_WORKSPACE/app/install/"
+          if [ ! -z "$PKG_FILE" ]; then
+            echo "找到 pkg 文件: $PKG_FILE"
+            cp "$PKG_FILE" "$RUNNER_WORKSPACE/app/install/"
           else
-            echo "Error: wbxnkarm.pkg not found"
+            echo "Error: 未找到 pkg 文件"
             echo "完整目录结构："
             ls -R
+            echo "build 目录内容："
+            find build -type f -exec ls -l {} \;
             exit 1
           fi
 
