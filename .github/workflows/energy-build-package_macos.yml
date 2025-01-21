@@ -60,12 +60,11 @@ jobs:
           ls -la
           
           energy build -o="漫客工具箱" 
-          energy build
-          
           echo "构建后目录结构："
           ls -la
           file 漫客工具箱
-          energy package -o="wbxnkamd" --pkg
+          energy package -f="漫客工具箱" -o="wbxnkamd" --pkg
+          
           echo "打包后检查 darwin 目录："
           if [ -d "build/darwin" ]; then
             echo "build/darwin 目录存在，内容如下："

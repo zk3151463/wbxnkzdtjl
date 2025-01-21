@@ -1,5 +1,5 @@
 {
-  "name": "漫客工具箱",
+  "name": "wbxnkamd",
   "projectPath": "@",
   "frameworkPath": "",
   "assetsDir": "assets",
@@ -7,16 +7,15 @@
   "helperFilePath": "",
   "plist": {
     "icon": "@/resources/icon.png",
-    "companyName": "wbxnk",
-    "productName": "mkgjxr",
+    "bundleName": "漫客工具箱",
+    "bundleDisplayName": "漫客工具箱",
+    "bundleIdentifier": "com.wbxnkgjx.app",
     "locals": [
       "zh_CN",
       "en"
     ],
-    "cfBundleVersion": "1.0.0",
-    "cfBundleIdentifier": "cc.wbxnk.mkgjxr",
-    "Identifier": "cc.wbxnk.mkgjx",
-    "cfBundleShortVersionString": "1.0.0",
+    "bundleVersion": "1.0.0",
+    "bundleShortVersionString": "1.0.0",
     "copyright": "Copyright.....",
     "comments": "Built using ENERGY (https://github.com/energye/energy)",
     "include": [],
