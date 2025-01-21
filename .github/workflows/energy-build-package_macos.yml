@@ -98,8 +98,8 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
-          energy build -o="wbxnkM1" --arch=arm64
-          energy package -f="wbxnkM1" -o="wbxnkM1" --pkg
+          energy build -o="漫客工具箱" --arch=arm64
+          energy package -f="漫客工具箱" -o="wbxnkM1" --pkg
           
           mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
       - name: Build and Package END
