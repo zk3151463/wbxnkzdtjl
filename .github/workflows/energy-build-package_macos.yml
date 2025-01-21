@@ -84,7 +84,7 @@ jobs:
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
             echo "查找所有 pkg 文件："
-            find $RUNNER_WORKSPACE/wbxnkzdtjl -name "*.pkg"
+            find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
             exit 1
           fi
       # MacOSARM64 安装 ARM64 架构 - 根据情况修改
