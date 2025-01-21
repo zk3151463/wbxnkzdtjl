@@ -60,11 +60,13 @@ jobs:
           ls -la
           
           energy build -o="wbxnkamd" 
+          energy build
           
           echo "构建后目录结构："
           ls -la
           file wbxnkamd
-          energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
+          energy package -o="wbxnkamd" --pkg
+          energy package  --pkg
           
           echo "打包后检查 darwin 目录："
           if [ -d "build/darwin" ]; then
