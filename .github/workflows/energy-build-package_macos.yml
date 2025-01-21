@@ -17,10 +17,6 @@ jobs:
       matrix:
         operating-system: [ macos-13 ]
 
-    env:
-      LANG: zh_CN.UTF-8
-      LC_ALL: zh_CN.UTF-8
-
     steps:
       - uses: actions/checkout@v4
 
@@ -51,143 +47,35 @@ jobs:
           energy install --all
           energy env
 
-      # 编译和打包 - AMD64
+      # 编译和打包 - 根据情况修改
       - name: Build and Package AMD64
         run: |
-          # 确保在正确的目录
-          echo "当前目录: $(pwd)"
-          cd $GITHUB_WORKSPACE
+          cd $RUNNER_WORKSPACE/demo-actions
           
-          # 检查 energy 环境
-          echo "检查 energy 环境..."
-          energy env
+          energy build -o="demo-amd64"
+          file demo-amd64
+          energy package -f="demo-amd64" -o="demo-macosx64" --pkg
           
-          # 清理并创建构建目录
-          rm -rf build
-          mkdir -p build/darwin
-          
-          echo "开始 AMD64 构建..."
-          # 显示项目结构
-          echo "项目结构："
-          ls -la
-          
-          # 构建项目，添加更多参数以获取详细信息
-          energy build -o="wbxnkamd"  --debug
-          
-          echo "构建完成，检查构建结果..."
-          if [ ! -d "build" ]; then
-            echo "Error: build 目录不存在"
-            exit 1
-          fi
-          
-          echo "构建目录内容："
-          ls -la build/darwin
-          
-          echo "开始打包..."
-          # 添加 --debug 参数获取更多打包信息
-          energy package -f="wbxnkamd" -o="wbxnkamd" --pkg -v --debug --skip-sign
-          
-          echo "打包完成，检查输出..."
-          ls -la build/darwin
-          
-          # 查找所有生成的文件
-          echo "查找所有生成的文件..."
-          find build -type f
-          
-          # 确保安装目录存在
-          mkdir -p "$RUNNER_WORKSPACE/app/install"
-          
-          # 尝试查找 pkg 文件（不区分大小写）
-          echo "查找 pkg 文件..."
-          PKG_FILE=$(find . -iname "*.pkg" -type f)
-          
-          if [ ! -z "$PKG_FILE" ]; then
-            echo "找到 pkg 文件: $PKG_FILE"
-            cp "$PKG_FILE" "$RUNNER_WORKSPACE/app/install/"
-          else
-            echo "Error: 未找到 pkg 文件"
-            echo "完整目录结构："
-            ls -R
-            echo "build 目录内容："
-            find build -type f -exec ls -l {} \;
-            exit 1
-          fi
+          mv "$RUNNER_WORKSPACE/demo-actions/build/darwin/demo-macosx64.pkg" "$RUNNER_WORKSPACE/app/install"
 
-      # MacOSARM64 安装 ARM64 架构
+      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
       - name: Install ENERGY CEF ARM-64
         run: |
           cd $RUNNER_WORKSPACE/app
           energy install --all --arch=arm64
           energy env
 
-      # 编译和打包 ARM64
+      # 编译和打包, 删除 build 文件夹 - 根据情况修改
       - name: Build and Package ARM64
         run: |
-          cd $GITHUB_WORKSPACE
-          
-          # 检查 energy 环境
-          echo "检查 energy 环境..."
-          energy env
-          
-          # 清理并创建构建目录
+          cd $RUNNER_WORKSPACE/demo-actions
           rm -rf build
-          mkdir -p build/darwin
           
-          echo "开始 ARM64 构建..."
-          # 显示项目结构
-          echo "项目结构："
-          ls -la
+          energy build -o="demo-arm64" --arch=arm64
+          file demo-arm64
+          energy package -f="demo-arm64" -o="demo-macosarm64" --pkg
           
-          # 构建项目，添加更多参数以获取详细信息
-          energy build -o="wbxnkarm" --arch=arm64  --debug
-          
-          echo "构建完成，检查构建结果..."
-          if [ ! -d "build" ]; then
-            echo "Error: build 目录不存在"
-            exit 1
-          fi
-          
-          echo "构建目录内容："
-          ls -la build/darwin
-          
-          echo "开始打包..."
-          # 添加 --debug 参数获取更多打包信息
-          energy package -f="wbxnkarm" -o="wbxnkarm" --pkg -v --debug --skip-sign
-          
-          echo "打包完成，检查输出..."
-          ls -la build/darwin
-          
-          # 查找所有生成的文件
-          echo "查找所有生成的文件..."
-          find build -type f
-          
-          # 确保安装目录存在
-          mkdir -p "$RUNNER_WORKSPACE/app/install"
-          
-          # 尝试查找 pkg 文件（不区分大小写）
-          echo "查找 pkg 文件..."
-          PKG_FILE=$(find . -iname "*.pkg" -type f)
-          
-          if [ ! -z "$PKG_FILE" ]; then
-            echo "找到 pkg 文件: $PKG_FILE"
-            cp "$PKG_FILE" "$RUNNER_WORKSPACE/app/install/"
-          else
-            echo "Error: 未找到 pkg 文件"
-            echo "完整目录结构："
-            ls -R
-            echo "build 目录内容："
-            find build -type f -exec ls -l {} \;
-            exit 1
-          fi
-
-      # 添加调试信息
-      - name: Debug Information
-        if: always()
-        run: |
-          echo "Workspace contents:"
-          ls -R $RUNNER_WORKSPACE/wbxnkzdtjl/build
-          echo "Install directory contents:"
-          ls -R $RUNNER_WORKSPACE/app/install
+          mv "$RUNNER_WORKSPACE/demo-actions/build/darwin/demo-macosarm64.pkg" "$RUNNER_WORKSPACE/app/install"
 
       - name: Build and Package END
         run: |
