@@ -54,7 +54,7 @@ jobs:
       # 编译和打包 - 根据情况修改
       - name: Build and Package AMD64
         run: |
-          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          cd $RUNNER_WORKSPACE
           
           energy build -o="wbxnkamd" 
           energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
@@ -83,7 +83,7 @@ jobs:
         run: |
           ls -al $RUNNER_WORKSPACE/app/install
 
-      - name: Release Dynamic library # 版本发布上传liblcl二进制
+      - name: Release Dynamic library # 版本发布上传liblcl二进制 
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
