@@ -74,10 +74,10 @@ jobs:
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
-          energy build -o="wbxnkM1" --arch=arm64
-          energy package -f="wbxnkM1" -o="wbxnkM1" --pkg
+          energy build -o="wbxnkarm" --arch=arm64
+          energy package -f="wbxnkarm" -o="wbxnkarm" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkarm.pkg" "$RUNNER_WORKSPACE/app/install"
 
       - name: Build and Package END
         run: |
