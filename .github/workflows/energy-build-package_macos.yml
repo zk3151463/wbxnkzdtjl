@@ -85,8 +85,8 @@ jobs:
             cp "$PKG_PATH" build/darwin/temp/
             cd build/darwin/temp
             # 将 pkg 打包成 zip
-            zip -r "wbxnkgjxamd64.zip" "漫客工具箱.pkg"
-            mv "wbxnkgjxamd64.zip" "$RUNNER_WORKSPACE/app/install/"
+            zip -r "macamd64.zip" "漫客工具箱.pkg"
+            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
             echo "查找所有 pkg 文件："
@@ -116,8 +116,8 @@ jobs:
             cp "$PKG_PATH" build/darwin/temp/
             cd build/darwin/temp
             # 将 pkg 打包成 zip
-            zip -r "wbxnkgjxM1.zip" "漫客工具箱.pkg"
-            mv "wbxnkgjxM1.zip" "$RUNNER_WORKSPACE/app/install/"
+            zip -r "macM1.zip" "漫客工具箱.pkg"
+            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: ARM64 pkg 文件不存在"
             find build/darwin -name "*.pkg"
