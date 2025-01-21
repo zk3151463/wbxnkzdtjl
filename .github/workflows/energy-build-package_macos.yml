@@ -54,41 +54,59 @@ jobs:
       # 编译和打包 - AMD64
       - name: Build and Package AMD64
         run: |
-          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          # 确保在正确的目录
+          echo "当前目录: $(pwd)"
+          
+          # 检查代码库是否正确检出
+          if [ ! -d "$GITHUB_WORKSPACE" ]; then
+            echo "Error: GITHUB_WORKSPACE 不存在"
+            exit 1
+          fi
+          
+          # 切换到正确的工作目录
+          cd $GITHUB_WORKSPACE
           
           # 确保构建目录存在
           mkdir -p build/darwin
           
-          # 添加详细的构建日志
           echo "开始 AMD64 构建..."
+          # 显示项目结构
+          echo "项目结构："
+          ls -la
+          
+          # 构建项目
           energy build -o="wbxnkamd" -v
           
-          echo "构建完成，开始打包..."
-          # 显示构建目录内容
+          echo "构建完成，检查构建结果..."
+          if [ ! -d "build" ]; then
+            echo "Error: build 目录不存在"
+            exit 1
+          fi
+          
           echo "构建目录内容："
           ls -la build/darwin
           
-          # 添加详细的打包日志
+          echo "开始打包..."
           energy package -f="wbxnkamd" -o="wbxnkamd" --pkg -v
           
-          echo "打包完成，检查输出目录..."
+          echo "打包完成，检查输出..."
           ls -la build/darwin
           
-          # 确保目标目录存在并使用正确的路径
+          # 确保安装目录存在
           mkdir -p "$RUNNER_WORKSPACE/app/install"
           
-          # 查找所有 .pkg 文件
-          echo "查找 .pkg 文件..."
+          # 查找所有 pkg 文件
+          echo "查找 pkg 文件..."
           find . -name "*.pkg"
           
-          # 添加错误检查
+          # 复制 pkg 文件
           if [ -f "build/darwin/wbxnkamd.pkg" ]; then
             echo "找到 pkg 文件，开始复制..."
             cp "build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: wbxnkamd.pkg not found"
-            echo "当前目录结构："
-            ls -R .
+            echo "完整目录结构："
+            ls -R
             exit 1
           fi
 
@@ -102,42 +120,54 @@ jobs:
       # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
-          cd $RUNNER_WORKSPACE/wbxnkzdtjl
-          rm -rf build
+          # 确保在正确的目录
+          echo "当前目录: $(pwd)"
           
-          # 确保构建目录存在
+          # 切换到正确的工作目录
+          cd $GITHUB_WORKSPACE
+          
+          # 清理并重新创建构建目录
+          rm -rf build
           mkdir -p build/darwin
           
-          # 添加详细的构建日志
           echo "开始 ARM64 构建..."
+          # 显示项目结构
+          echo "项目结构："
+          ls -la
+          
+          # 构建项目
           energy build -o="wbxnkarm" --arch=arm64 -v
           
-          echo "构建完成，开始打包..."
-          # 显示构建目录内容
+          echo "构建完成，检查构建结果..."
+          if [ ! -d "build" ]; then
+            echo "Error: build 目录不存在"
+            exit 1
+          fi
+          
           echo "构建目录内容："
           ls -la build/darwin
           
-          # 添加详细的打包日志
+          echo "开始打包..."
           energy package -f="wbxnkarm" -o="wbxnkarm" --pkg -v
           
-          echo "打包完成，检查输出目录..."
+          echo "打包完成，检查输出..."
           ls -la build/darwin
           
-          # 确保目标目录存在并使用正确的路径
+          # 确保安装目录存在
           mkdir -p "$RUNNER_WORKSPACE/app/install"
           
-          # 查找所有 .pkg 文件
-          echo "查找 .pkg 文件..."
+          # 查找所有 pkg 文件
+          echo "查找 pkg 文件..."
           find . -name "*.pkg"
           
-          # 添加错误检查
+          # 复制 pkg 文件
           if [ -f "build/darwin/wbxnkarm.pkg" ]; then
             echo "找到 pkg 文件，开始复制..."
             cp "build/darwin/wbxnkarm.pkg" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: wbxnkarm.pkg not found"
-            echo "当前目录结构："
-            ls -R .
+            echo "完整目录结构："
+            ls -R
             exit 1
           fi
 
