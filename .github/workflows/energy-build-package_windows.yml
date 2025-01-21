@@ -54,7 +54,7 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包, -o -f 改成你自己的
+      # cli 编译和打包 AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -66,11 +66,9 @@ jobs:
           mkdir -p build/windows/temp
           cp "build/windows/漫客工具箱.exe" build/windows/temp/
           
-          # 进入临时目录打包
-          cd build/windows/temp
-          # 将 exe 打包成 zip
-          zip -r "winamd64.zip" "漫客工具箱.exe"
-          mv "winamd64.zip" "D:/app/install/"
+          # 使用 PowerShell 压缩文件
+          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/winamd64.zip' -Force"
+          mv "build/windows/temp/winamd64.zip" "D:/app/install/"
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -81,7 +79,7 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包, -o -f 改成你自己的
+      # cli 编译和打包 32位版本
       - name: Build and Package 32
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -93,11 +91,9 @@ jobs:
           mkdir -p build/windows/temp
           cp "build/windows/漫客工具箱.exe" build/windows/temp/
           
-          # 进入临时目录打包
-          cd build/windows/temp
-          # 将 exe 打包成 zip
-          zip -r "win32.zip" "漫客工具箱.exe"
-          mv "win32.zip" "D:/app/install/"
+          # 使用 PowerShell 压缩文件
+          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/win32.zip' -Force"
+          mv "build/windows/temp/win32.zip" "D:/app/install/"
         shell: bash
 
       - name: Build and Package END
