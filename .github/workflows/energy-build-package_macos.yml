@@ -48,7 +48,7 @@ jobs:
           cd $RUNNER_WORKSPACE/app
           energy install --all
           energy env
-      # 编译和打包 - 根据情况修改
+      # 编译和打包 - AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -63,7 +63,7 @@ jobs:
           echo "构建后目录结构："
           ls -la
           file 漫客工具箱
-          energy package -f="漫客工具箱" -o="wbxnkamd" --pkg
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
           echo "打包后检查 darwin 目录："
           if [ -d "build/darwin" ]; then
@@ -76,32 +76,53 @@ jobs:
           fi
           
           # 检查 pkg 文件
-          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg"
+          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱.pkg"
+          
           if [ -f "$PKG_PATH" ]; then
             echo "pkg 文件存在：$PKG_PATH"
-            mv "$PKG_PATH" "$RUNNER_WORKSPACE/app/install"
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "wbxnkgjxamd64.zip" "漫客工具箱.pkg"
+            mv "wbxnkgjxamd64.zip" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
             echo "查找所有 pkg 文件："
             find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
             exit 1
           fi
-      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
+      # MacOSARM64 安装 ARM64 架构
       - name: Install ENERGY CEF ARM-64
         run: |
           cd $RUNNER_WORKSPACE/app
           energy install --all --arch=arm64
           energy env
-      # 编译和打包, 删除 build 文件夹 - 根据情况修改
+      # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
           energy build -o="漫客工具箱" --arch=arm64
-          energy package -f="漫客工具箱" -o="wbxnkM1" --pkg
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
+          # 检查并打包 ARM64 pkg 文件
+          PKG_PATH="build/darwin/漫客工具箱.pkg"
+          if [ -f "$PKG_PATH" ]; then
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "wbxnkgjxM1.zip" "漫客工具箱.pkg"
+            mv "wbxnkgjxM1.zip" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: ARM64 pkg 文件不存在"
+            find build/darwin -name "*.pkg"
+            exit 1
+          fi
       - name: Build and Package END
         run: |
           ls -al $RUNNER_WORKSPACE/app/install
