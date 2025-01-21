@@ -1,5 +1,5 @@
 <template>
-    <div id="app-base-socket-ipc" class="dark:text-gray-100">
+    <div id="app-base-socket-ipc">
       <div class="one-block-1">
         <span>
           1. 发送异步消息

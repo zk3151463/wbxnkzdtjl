@@ -8,8 +8,6 @@ import Antd from 'ant-design-vue';
 import './assets/global.less';
 import './assets/theme.less';
 import 'ant-design-vue/dist/reset.css';
-import './assets/tailwind.css';
-
 
 const app = createApp(App)
 app.config.productionTip = false
