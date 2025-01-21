@@ -53,10 +53,40 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
+          echo "当前目录: $(pwd)"
+          
+          # 构建前检查目录
+          echo "构建前目录结构："
+          ls -la
+          
           energy build -o="wbxnkamd" 
+          
+          echo "构建后目录结构："
+          ls -la
+          
           energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
-          ls $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install"
+          
+          echo "打包后检查 darwin 目录："
+          if [ -d "build/darwin" ]; then
+            echo "build/darwin 目录存在，内容如下："
+            ls -la build/darwin
+          else
+            echo "Error: build/darwin 目录不存在"
+            echo "build 目录内容："
+            ls -la build
+          fi
+          
+          # 检查 pkg 文件
+          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg"
+          if [ -f "$PKG_PATH" ]; then
+            echo "pkg 文件存在：$PKG_PATH"
+            mv "$PKG_PATH" "$RUNNER_WORKSPACE/app/install"
+          else
+            echo "Error: pkg 文件不存在：$PKG_PATH"
+            echo "查找所有 pkg 文件："
+            find $RUNNER_WORKSPACE/wbxnkzdtjl -name "*.pkg"
+            exit 1
+          fi
       # MacOSARM64 安装 ARM64 架构 - 根据情况修改
       - name: Install ENERGY CEF ARM-64
         run: |
