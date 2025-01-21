@@ -59,10 +59,18 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="wbxnkAMD64.exe"
-          energy package -f="wbxnkAMD64.exe" -o="wbxnkAMD64.exe" -c
+          energy build -o="漫客工具箱.exe"
+          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnkAMD64.exe" D:/app/install
+          # 创建临时目录用于打包
+          mkdir -p build/windows/temp
+          cp "build/windows/漫客工具箱.exe" build/windows/temp/
+          
+          # 进入临时目录打包
+          cd build/windows/temp
+          # 将 exe 打包成 zip
+          zip -r "winamd64.zip" "漫客工具箱.exe"
+          mv "winamd64.zip" "D:/app/install/"
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -78,10 +86,18 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="wbxnk32.exe" --arch="386"
-          energy package -f="wbxnk32.exe" -o="wbxnk32.exe" -c
+          energy build -o="漫客工具箱.exe" --arch="386"
+          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnk32.exe" D:/app/install
+          # 创建临时目录用于打包
+          mkdir -p build/windows/temp
+          cp "build/windows/漫客工具箱.exe" build/windows/temp/
+          
+          # 进入临时目录打包
+          cd build/windows/temp
+          # 将 exe 打包成 zip
+          zip -r "win32.zip" "漫客工具箱.exe"
+          mv "win32.zip" "D:/app/install/"
         shell: bash
 
       - name: Build and Package END
