@@ -63,7 +63,7 @@ jobs:
           
           echo "构建后目录结构："
           ls -la
-          
+          file wbxnkamd
           energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
           
           echo "打包后检查 darwin 目录："
