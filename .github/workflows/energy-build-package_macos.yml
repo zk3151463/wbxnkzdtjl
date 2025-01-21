@@ -51,33 +51,66 @@ jobs:
           energy install --all
           energy env
 
-      # 编译和打包 - 根据情况修改
+      # 编译和打包 - AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="wbxnkamd" 
+          # 确保构建目录存在
+          mkdir -p build/darwin
+          
+          energy build -o="wbxnkamd"
           energy package -f="wbxnkamd" -o="wbxnkamd" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install"
+          # 确保目标目录存在并使用正确的路径
+          mkdir -p "$RUNNER_WORKSPACE/app/install"
+          
+          # 添加错误检查
+          if [ -f "build/darwin/wbxnkamd.pkg" ]; then
+            cp "build/darwin/wbxnkamd.pkg" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: wbxnkamd.pkg not found"
+            exit 1
+          fi
 
-      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
+      # MacOSARM64 安装 ARM64 架构
       - name: Install ENERGY CEF ARM-64
         run: |
           cd $RUNNER_WORKSPACE/app
           energy install --all --arch=arm64
           energy env
 
-      # 编译和打包, 删除 build 文件夹 - 根据情况修改
+      # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
+          # 确保构建目录存在
+          mkdir -p build/darwin
+          
           energy build -o="wbxnkarm" --arch=arm64
           energy package -f="wbxnkarm" -o="wbxnkarm" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkarm.pkg" "$RUNNER_WORKSPACE/app/install"
+          # 确保目标目录存在并使用正确的路径
+          mkdir -p "$RUNNER_WORKSPACE/app/install"
+          
+          # 添加错误检查
+          if [ -f "build/darwin/wbxnkarm.pkg" ]; then
+            cp "build/darwin/wbxnkarm.pkg" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: wbxnkarm.pkg not found"
+            exit 1
+          fi
+
+      # 添加调试信息
+      - name: Debug Information
+        if: always()
+        run: |
+          echo "Workspace contents:"
+          ls -R $RUNNER_WORKSPACE/wbxnkzdtjl/build
+          echo "Install directory contents:"
+          ls -R $RUNNER_WORKSPACE/app/install
 
       - name: Build and Package END
         run: |
