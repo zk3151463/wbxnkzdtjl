@@ -35,6 +35,6 @@
   },
   "application": {
     "high-dpi-support": 1,
-    "command-line-args": "--high-dpi-support=1.25 --force-device-scale-factor=1.25"
+    "command-line-args": "--high-dpi-support=1 --force-device-scale-factor=1"
   }
 }
