@@ -23,14 +23,15 @@ func main() {
 
 	app := cef.NewApplication()
 	app.SetUseMockKeyChain(true)
-	cef.BrowserWindow.Config.IconFS = "resources/icon.png"
+
+	cef.BrowserWindow.Config.IconFS = " "
 	//Local load resources/*  */
 	cef.BrowserWindow.Config.LocalResource(cef.LocalLoadConfig{
 		ResRootDir: "resources",
 		FS:         &resources,
 	}.Build())
 	//窗口的标题
-	cef.BrowserWindow.Config.Title = "漫客工具箱"
+	cef.BrowserWindow.Config.Title = ""
 	//窗口宽高
 	cef.BrowserWindow.Config.Width = 1330
 	cef.BrowserWindow.Config.Height = 817

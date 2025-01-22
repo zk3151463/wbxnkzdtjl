@@ -34,6 +34,10 @@
     "email": "snxamdf@126.com"
   },
   "application": {
-    "high-dpi-support": 1
+    "high-dpi-support": 1,
+    "command-line-args": "--high-dpi-support=1 --force-device-scale-factor=1 --disable-gpu-compositing --enable-begin-frame-scheduling",
+    "scale-factor": 1.0,
+    "auto-scale": true,
+    "scale-mode": "source-size"
   }
 }
