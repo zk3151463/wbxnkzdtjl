@@ -34,8 +34,8 @@ func main() {
 	//窗口宽高
 	cef.BrowserWindow.Config.Width = 1330
 	cef.BrowserWindow.Config.Height = 817
-	cef.BrowserWindow.Config.MinHeight = 1330
-	cef.BrowserWindow.Config.MinWidth = 817
+	cef.BrowserWindow.Config.MinHeight = 817
+	cef.BrowserWindow.Config.MinWidth = 1330
 	// cef.BrowserWindow.Config.MaxHeight = 900
 	// cef.BrowserWindow.Config.MaxWidth = 1400
 

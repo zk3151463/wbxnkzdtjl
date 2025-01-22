@@ -34,7 +34,6 @@
     "email": "snxamdf@126.com"
   },
   "application": {
-    "high-dpi-support": 1,
-    "command-line-args": "--high-dpi-support=1 --force-device-scale-factor=1"
+    "high-dpi-support": 1
   }
 }
