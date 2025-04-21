@@ -55,6 +55,16 @@ jobs:
             cd build/darwin/temp
             zip -r "macamd64.zip" "漫客工具箱.pkg"
             mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/amd64/"
+            
+            # 检查文件是否成功移动
+            if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
+              echo "✅ AMD64 package successfully created and moved"
+              ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
+            else
+              echo "❌ Error: AMD64 package not found at expected location"
+              ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
+              exit 1
+            fi
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
             find build/darwin -name "*.pkg"
@@ -67,6 +77,7 @@ jobs:
           name: mac-amd64-package
           path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip
           retention-days: 1
+          if-no-files-found: error
 
   macos-arm64:
     runs-on: macos-13
@@ -113,6 +124,16 @@ jobs:
             cd build/darwin/temp
             zip -r "macM1.zip" "漫客工具箱.pkg"
             mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/arm64/"
+            
+            # 检查文件是否成功移动
+            if [ -f "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip" ]; then
+              echo "✅ ARM64 package successfully created and moved"
+              ls -l "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip"
+            else
+              echo "❌ Error: ARM64 package not found at expected location"
+              ls -la "$RUNNER_WORKSPACE/app/install/arm64/"
+              exit 1
+            fi
           else
             echo "Error: ARM64 pkg 文件不存在"
             find build/darwin -name "*.pkg"
@@ -125,6 +146,7 @@ jobs:
           name: mac-arm64-package
           path: $RUNNER_WORKSPACE/app/install/arm64/macM1.zip
           retention-days: 1
+          if-no-files-found: error
 
   release:
     needs: [macos-amd64, macos-arm64]
@@ -144,7 +166,12 @@ jobs:
 
       - name: Check Install Directory
         run: |
+          echo "Checking install directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install
+          echo "Checking AMD64 directory contents:"
+          ls -al $RUNNER_WORKSPACE/app/install/amd64
+          echo "Checking ARM64 directory contents:"
+          ls -al $RUNNER_WORKSPACE/app/install/arm64
 
       - name: Release Dynamic library
         uses: softprops/action-gh-release@v2

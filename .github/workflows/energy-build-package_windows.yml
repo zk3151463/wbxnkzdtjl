@@ -31,12 +31,22 @@ jobs:
 
       - name: Install NSIS Chinese Language Files
         run: |
+          # 获取 NSIS 安装路径
+          $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
+          echo "NSIS Path: $NSIS_PATH"
+          
           # 创建语言文件目录
-          mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
+          $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
+          mkdir -p "$LANG_PATH"
+          
           # 下载中文语言文件
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
-        shell: bash
+          curl -L -o "$LANG_PATH\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          curl -L -o "$LANG_PATH\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          
+          # 验证文件是否下载成功
+          echo "Language files in $LANG_PATH:"
+          ls "$LANG_PATH"
+        shell: powershell
 
       - name: Config Base Environment
         run: |
@@ -101,12 +111,22 @@ jobs:
 
       - name: Install NSIS Chinese Language Files
         run: |
+          # 获取 NSIS 安装路径
+          $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
+          echo "NSIS Path: $NSIS_PATH"
+          
           # 创建语言文件目录
-          mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
+          $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
+          mkdir -p "$LANG_PATH"
+          
           # 下载中文语言文件
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
-        shell: bash
+          curl -L -o "$LANG_PATH\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          curl -L -o "$LANG_PATH\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          
+          # 验证文件是否下载成功
+          echo "Language files in $LANG_PATH:"
+          ls "$LANG_PATH"
+        shell: powershell
 
       - name: Config Base Environment
         run: |
