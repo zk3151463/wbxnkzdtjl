@@ -26,9 +26,7 @@ jobs:
 
       - name: Config Base Environment
         run: |
-          mkdir $RUNNER_WORKSPACE/app
-          mkdir $RUNNER_WORKSPACE/app/install
-          mkdir $RUNNER_WORKSPACE/app/install/amd64
+          mkdir -p $RUNNER_WORKSPACE/app/install/amd64
 
       - name: Install ENERGY CLI
         run: |
@@ -47,8 +45,6 @@ jobs:
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
-          echo "当前目录: $(pwd)"
-          
           energy build -o="漫客工具箱" 
           energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
@@ -64,6 +60,13 @@ jobs:
             find build/darwin -name "*.pkg"
             exit 1
           fi
+
+      - name: Upload AMD64 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: amd64-package
+          path: $RUNNER_WORKSPACE/app/install/amd64/
+          retention-days: 1
 
   macos-arm64:
     runs-on: macos-13
@@ -81,9 +84,7 @@ jobs:
 
       - name: Config Base Environment
         run: |
-          mkdir $RUNNER_WORKSPACE/app
-          mkdir $RUNNER_WORKSPACE/app/install
-          mkdir $RUNNER_WORKSPACE/app/install/arm64
+          mkdir -p $RUNNER_WORKSPACE/app/install/arm64
 
       - name: Install ENERGY CLI
         run: |
@@ -118,10 +119,29 @@ jobs:
             exit 1
           fi
 
+      - name: Upload ARM64 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-package
+          path: $RUNNER_WORKSPACE/app/install/arm64/
+          retention-days: 1
+
   release:
     needs: [macos-amd64, macos-arm64]
     runs-on: macos-13
     steps:
+      - name: Download AMD64 Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: amd64-package
+          path: $RUNNER_WORKSPACE/app/install/amd64
+
+      - name: Download ARM64 Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: arm64-package
+          path: $RUNNER_WORKSPACE/app/install/arm64
+
       - name: Check Install Directory
         run: |
           ls -al $RUNNER_WORKSPACE/app/install
@@ -130,6 +150,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "../app/install/**"
+          files: $RUNNER_WORKSPACE/app/install/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

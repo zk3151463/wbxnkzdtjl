@@ -40,9 +40,7 @@ jobs:
 
       - name: Config Base Environment
         run: |
-          mkdir D:/app
-          mkdir D:/app/install
-          mkdir D:/app/install/amd64
+          mkdir -p D:/app/install/amd64
         shell: bash
 
       - name: Install ENERGY CLI
@@ -75,6 +73,13 @@ jobs:
           mv "build/windows/temp/winamd64.zip" "D:/app/install/amd64/"
         shell: bash
 
+      - name: Upload AMD64 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-amd64-package
+          path: D:/app/install/amd64/
+          retention-days: 1
+
   windows-32:
     runs-on: windows-2019
     env:
@@ -105,9 +110,7 @@ jobs:
 
       - name: Config Base Environment
         run: |
-          mkdir D:/app
-          mkdir D:/app/install
-          mkdir D:/app/install/386
+          mkdir -p D:/app/install/386
         shell: bash
 
       - name: Install ENERGY CLI
@@ -140,10 +143,29 @@ jobs:
           mv "build/windows/temp/win32.zip" "D:/app/install/386/"
         shell: bash
 
+      - name: Upload 32-bit Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-32-package
+          path: D:/app/install/386/
+          retention-days: 1
+
   release:
     needs: [windows-64, windows-32]
     runs-on: windows-2019
     steps:
+      - name: Download AMD64 Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: win-amd64-package
+          path: D:/app/install/amd64
+
+      - name: Download 32-bit Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: win-32-package
+          path: D:/app/install/386
+
       - name: Check Install Directory
         run: |
           ls -al D:/app/install/
