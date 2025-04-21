@@ -1,22 +1,22 @@
-name: Energy Build and Package MacOS
+name: Energy Build and Package Windows
 
 on:
   workflow_dispatch:
   push:
     tags:
       - 'v*.*.*'
-      
+
 permissions:
   contents: write
 
 jobs:
-  macos-amd64-arm64:
+  windows-64:
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
       matrix:
-        operating-system: [ macos-13 ]
-
+        operating-system: [ windows-2019 ]
+        
     env:
       LANG: zh_CN.UTF-8
       LC_ALL: zh_CN.UTF-8
@@ -32,104 +32,68 @@ jobs:
       # 创建基础环境目录 - 不修改
       - name: Config Base Environment
         run: |
-          mkdir $RUNNER_WORKSPACE/app
-          mkdir $RUNNER_WORKSPACE/app/install
+          mkdir D:/app
+          mkdir D:/app/install
+        shell: bash
+
       # 安装 energy cli - 不修改
       - name: Install ENERGY CLI
         run: |
-          cd $RUNNER_WORKSPACE/app
+          cd D:/app
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
           energy cli -v
-      # MacOSX64 安装开发环境 - 根据情况修改
-      - name: Install ENERGY CEF AMD-64
+        shell: bash
+
+      # windows 64 安装开发环境, --cef=109 版本号改成你使用的
+      - name: Install ENERGY CEF 109-64
         run: |
-          cd $RUNNER_WORKSPACE/app
-          energy install --all
+          cd D:/app
+          energy install --all --cef=109
           energy env
-      # 编译和打包 - AMD64
+        shell: bash
+
+      # cli 编译和打包, -o -f 改成你自己的
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          echo "当前目录: $(pwd)"
+          energy build -o="wbxnkAMD64.exe"
+          energy package -f="wbxnkAMD64.exe" -o="wbxnkAMD64.exe" -c
           
-          # 构建前检查目录
-          echo "构建前目录结构："
-          ls -la
-          
-          energy build -o="漫客工具箱" 
-          echo "构建后目录结构："
-          ls -la
-          file 漫客工具箱
-          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
-          
-          echo "打包后检查 darwin 目录："
-          if [ -d "build/darwin" ]; then
-            echo "build/darwin 目录存在，内容如下："
-            ls -la build/darwin
-          else
-            echo "Error: build/darwin 目录不存在"
-            echo "build 目录内容："
-            ls -la build
-          fi
-          
-          # 检查 pkg 文件
-          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱.pkg"
-          
-          if [ -f "$PKG_PATH" ]; then
-            echo "pkg 文件存在：$PKG_PATH"
-            # 创建临时目录用于打包
-            mkdir -p build/darwin/temp
-            cp "$PKG_PATH" build/darwin/temp/
-            cd build/darwin/temp
-            # 将 pkg 打包成 zip
-            zip -r "macamd64.zip" "漫客工具箱.pkg"
-            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/"
-          else
-            echo "Error: pkg 文件不存在：$PKG_PATH"
-            echo "查找所有 pkg 文件："
-            find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
-            exit 1
-          fi
-      # MacOSARM64 安装 ARM64 架构
-      - name: Install ENERGY CEF ARM-macamd64
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnkAMD64.exe" D:/app/install
+        shell: bash
+
+      # windows 32 安装开发环境, --cef=109 版本号改成你使用的
+      - name: Install ENERGY CEF 109-32
         run: |
-          cd $RUNNER_WORKSPACE/app
-          energy install --all --arch=arm64
+          cd D:/app
+          energy install --all --cef=109 --arch=386
           energy env
-      # 编译和打包 ARM64
-      - name: Build and Package ARM64
+        shell: bash
+
+      # cli 编译和打包, -o -f 改成你自己的
+      - name: Build and Package 32
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
-          rm -rf build
           
-          energy build -o="漫客工具箱" --arch=arm64
-          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
+          energy build -o="wbxnk32.exe" --arch="386"
+          energy package -f="wbxnk32.exe" -o="wbxnk32.exe" -c
           
-          # 检查并打包 ARM64 pkg 文件
-          PKG_PATH="build/darwin/漫客工具箱.pkg"
-          if [ -f "$PKG_PATH" ]; then
-            # 创建临时目录用于打包
-            mkdir -p build/darwin/temp
-            cp "$PKG_PATH" build/darwin/temp/
-            cd build/darwin/temp
-            # 将 pkg 打包成 zip
-            zip -r "macM1.zip" "漫客工具箱.pkg"
-            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/"
-          else
-            echo "Error: ARM64 pkg 文件不存在"
-            find build/darwin -name "*.pkg"
-            exit 1
-          fi
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnk32.exe" D:/app/install
+        shell: bash
+
       - name: Build and Package END
         run: |
-          ls -al $RUNNER_WORKSPACE/app/install
-      - name: Release Dynamic library # 版本发布上传liblcl二进制
+          ls -al D:/app/install/
+        shell: bash
+
+      # 发布版本自动上传到发布版本, 不需要修改, 但需要配置 GITHUB_TOKEN
+      - name: Release Dynamic library
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "../app/install/**"
+          files: D:/app/install/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
