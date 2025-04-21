@@ -11,12 +11,7 @@ permissions:
 
 jobs:
   windows-64:
-    runs-on: ${{ matrix.operating-system }}
-
-    strategy:
-      matrix:
-        operating-system: [ windows-2019 ]
-        
+    runs-on: windows-2019
     env:
       LANG: zh_CN.UTF-8
       LC_ALL: zh_CN.UTF-8
@@ -29,14 +24,13 @@ jobs:
         with:
           go-version: '1.20'
 
-      # 创建基础环境目录 - 不修改
       - name: Config Base Environment
         run: |
           mkdir D:/app
           mkdir D:/app/install
+          mkdir D:/app/install/amd64
         shell: bash
 
-      # 安装 energy cli - 不修改
       - name: Install ENERGY CLI
         run: |
           cd D:/app
@@ -46,7 +40,6 @@ jobs:
           energy cli -v
         shell: bash
 
-      # windows 64 安装开发环境, --cef=109 版本号改成你使用的
       - name: Install ENERGY CEF 109-64
         run: |
           cd D:/app
@@ -54,7 +47,6 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包 AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -62,16 +54,43 @@ jobs:
           energy build -o="漫客工具箱.exe"
           energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          # 创建临时目录用于打包
           mkdir -p build/windows/temp
           cp "build/windows/漫客工具箱.exe" build/windows/temp/
           
-          # 使用 PowerShell 压缩文件
           powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/winamd64.zip' -Force"
-          mv "build/windows/temp/winamd64.zip" "D:/app/install/"
+          mv "build/windows/temp/winamd64.zip" "D:/app/install/amd64/"
         shell: bash
 
-      # windows 32 安装开发环境, --cef=109 版本号改成你使用的
+  windows-32:
+    runs-on: windows-2019
+    env:
+      LANG: zh_CN.UTF-8
+      LC_ALL: zh_CN.UTF-8
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+
+      - name: Config Base Environment
+        run: |
+          mkdir D:/app
+          mkdir D:/app/install
+          mkdir D:/app/install/386
+        shell: bash
+
+      - name: Install ENERGY CLI
+        run: |
+          cd D:/app
+          git clone https://github.com/energye/energy.git
+          cd energy/cmd/energy
+          go install
+          energy cli -v
+        shell: bash
+
       - name: Install ENERGY CEF 109-32
         run: |
           cd D:/app
@@ -79,7 +98,6 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包 32位版本
       - name: Build and Package 32
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -87,21 +105,22 @@ jobs:
           energy build -o="漫客工具箱.exe" --arch="386"
           energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          # 创建临时目录用于打包
           mkdir -p build/windows/temp
           cp "build/windows/漫客工具箱.exe" build/windows/temp/
           
-          # 使用 PowerShell 压缩文件
           powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/win32.zip' -Force"
-          mv "build/windows/temp/win32.zip" "D:/app/install/"
+          mv "build/windows/temp/win32.zip" "D:/app/install/386/"
         shell: bash
 
-      - name: Build and Package END
+  release:
+    needs: [windows-64, windows-32]
+    runs-on: windows-2019
+    steps:
+      - name: Check Install Directory
         run: |
           ls -al D:/app/install/
         shell: bash
 
-      # 发布版本自动上传到发布版本, 不需要修改, 但需要配置 GITHUB_TOKEN
       - name: Release Dynamic library
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
