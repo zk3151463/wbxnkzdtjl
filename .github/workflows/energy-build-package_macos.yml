@@ -64,8 +64,8 @@ jobs:
       - name: Upload AMD64 Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: amd64-package
-          path: $RUNNER_WORKSPACE/app/install/amd64/
+          name: mac-amd64-package
+          path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip
           retention-days: 1
 
   macos-arm64:
@@ -122,8 +122,8 @@ jobs:
       - name: Upload ARM64 Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: arm64-package
-          path: $RUNNER_WORKSPACE/app/install/arm64/
+          name: mac-arm64-package
+          path: $RUNNER_WORKSPACE/app/install/arm64/macM1.zip
           retention-days: 1
 
   release:
@@ -133,13 +133,13 @@ jobs:
       - name: Download AMD64 Artifact
         uses: actions/download-artifact@v4
         with:
-          name: amd64-package
+          name: mac-amd64-package
           path: $RUNNER_WORKSPACE/app/install/amd64
 
       - name: Download ARM64 Artifact
         uses: actions/download-artifact@v4
         with:
-          name: arm64-package
+          name: mac-arm64-package
           path: $RUNNER_WORKSPACE/app/install/arm64
 
       - name: Check Install Directory

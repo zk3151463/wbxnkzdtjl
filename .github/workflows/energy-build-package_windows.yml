@@ -34,8 +34,8 @@ jobs:
           # 创建语言文件目录
           mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
           # 下载中文语言文件
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese.nlf
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese_simplified.nlf
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
         shell: bash
 
       - name: Config Base Environment
@@ -104,8 +104,8 @@ jobs:
           # 创建语言文件目录
           mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
           # 下载中文语言文件
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese.nlf
-          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese_simplified.nlf
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
         shell: bash
 
       - name: Config Base Environment
