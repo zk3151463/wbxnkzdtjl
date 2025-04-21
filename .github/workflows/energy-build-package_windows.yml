@@ -33,7 +33,7 @@ jobs:
         run: |
           # 获取 NSIS 安装路径
           $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          Write-Host "NSIS Path: $NSIS_PATH"
+          Write-Host ("NSIS Path: {0}" -f $NSIS_PATH)
           
           # 创建语言文件目录
           $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
@@ -47,7 +47,7 @@ jobs:
           Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
           
           # 验证文件是否下载成功
-          Write-Host "Language files in $LANG_PATH:"
+          Write-Host "Language files in directory:"
           Get-ChildItem -Path $LANG_PATH
         shell: powershell
 
@@ -116,7 +116,7 @@ jobs:
         run: |
           # 获取 NSIS 安装路径
           $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          Write-Host "NSIS Path: $NSIS_PATH"
+          Write-Host ("NSIS Path: {0}" -f $NSIS_PATH)
           
           # 创建语言文件目录
           $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
@@ -130,7 +130,7 @@ jobs:
           Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
           
           # 验证文件是否下载成功
-          Write-Host "Language files in $LANG_PATH:"
+          Write-Host "Language files in directory:"
           Get-ChildItem -Path $LANG_PATH
         shell: powershell
 

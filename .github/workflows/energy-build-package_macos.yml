@@ -27,13 +27,13 @@ jobs:
       - name: Config Base Environment
         run: |
           echo "Current directory: $(pwd)"
-          mkdir -p $RUNNER_WORKSPACE/app/install/amd64
+          mkdir -p "$RUNNER_WORKSPACE/app/install/amd64"
           echo "Created directory: $RUNNER_WORKSPACE/app/install/amd64"
-          ls -la $RUNNER_WORKSPACE/app/install/amd64
+          ls -la "$RUNNER_WORKSPACE/app/install/amd64"
 
       - name: Install ENERGY CLI
         run: |
-          cd $RUNNER_WORKSPACE/app
+          cd "$RUNNER_WORKSPACE/app"
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
@@ -41,13 +41,13 @@ jobs:
 
       - name: Install ENERGY CEF AMD-64
         run: |
-          cd $RUNNER_WORKSPACE/app
+          cd "$RUNNER_WORKSPACE/app"
           energy install --all
           energy env
 
       - name: Build and Package AMD64
         run: |
-          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          cd "$RUNNER_WORKSPACE/wbxnkzdtjl"
           echo "Current directory: $(pwd)"
           
           energy build -o="漫客工具箱" 
@@ -109,13 +109,13 @@ jobs:
       - name: Config Base Environment
         run: |
           echo "Current directory: $(pwd)"
-          mkdir -p $RUNNER_WORKSPACE/app/install/arm64
+          mkdir -p "$RUNNER_WORKSPACE/app/install/arm64"
           echo "Created directory: $RUNNER_WORKSPACE/app/install/arm64"
-          ls -la $RUNNER_WORKSPACE/app/install/arm64
+          ls -la "$RUNNER_WORKSPACE/app/install/arm64"
 
       - name: Install ENERGY CLI
         run: |
-          cd $RUNNER_WORKSPACE/app
+          cd "$RUNNER_WORKSPACE/app"
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
@@ -123,13 +123,13 @@ jobs:
 
       - name: Install ENERGY CEF ARM-64
         run: |
-          cd $RUNNER_WORKSPACE/app
+          cd "$RUNNER_WORKSPACE/app"
           energy install --all --arch=arm64
           energy env
 
       - name: Build and Package ARM64
         run: |
-          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          cd "$RUNNER_WORKSPACE/wbxnkzdtjl"
           echo "Current directory: $(pwd)"
           
           energy build -o="漫客工具箱" --arch=arm64
