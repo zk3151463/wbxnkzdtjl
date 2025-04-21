@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  macos-amd64:
+  macos-arm64:
     runs-on: macos-13
     env:
       LANG: zh_CN.UTF-8
@@ -27,10 +27,9 @@ jobs:
       - name: Config Base Environment
         run: |
           echo "Current directory: $(pwd)"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
-          mkdir -p "$RUNNER_WORKSPACE/app/install/amd64"
-          echo "Created directory: $RUNNER_WORKSPACE/app/install/amd64"
-          ls -la "$RUNNER_WORKSPACE/app/install/amd64"
+          mkdir -p "$RUNNER_WORKSPACE/app/install/arm64"
+          echo "Created directory: $RUNNER_WORKSPACE/app/install/arm64"
+          ls -la "$RUNNER_WORKSPACE/app/install/arm64"
 
       - name: Install ENERGY CLI
         run: |
@@ -40,19 +39,18 @@ jobs:
           go install
           energy cli -v
 
-      - name: Install ENERGY CEF AMD-64
+      - name: Install ENERGY CEF ARM-64
         run: |
           cd "$RUNNER_WORKSPACE/app"
-          energy install --all
+          energy install --all --arch=arm64
           energy env
 
-      - name: Build and Package AMD64
+      - name: Build and Package ARM64
         run: |
           cd "$RUNNER_WORKSPACE/wbxnkzdtjl"
           echo "Current directory: $(pwd)"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
           
-          energy build -o="漫客工具箱" 
+          energy build -o="漫客工具箱" --arch=arm64
           energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
           PKG_PATH="build/darwin/漫客工具箱.pkg"
@@ -63,61 +61,39 @@ jobs:
             cp "$PKG_PATH" build/darwin/temp/
             cd build/darwin/temp
             echo "Current directory: $(pwd)"
-            zip -r "macamd64.zip" "漫客工具箱.pkg"
+            zip -r "macM1.zip" "漫客工具箱.pkg"
             echo "Created zip file"
             ls -la
-            echo "Moving zip file to: $RUNNER_WORKSPACE/app/install/amd64/"
-            mkdir -p "$RUNNER_WORKSPACE/app/install/amd64"
-            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/amd64/"
-            echo "Moved zip file"
+            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/arm64/"
+            echo "Moved zip file to: $RUNNER_WORKSPACE/app/install/arm64/"
             
             # 检查文件是否成功移动
-            if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
-              echo "✅ AMD64 package successfully created and moved"
-              echo "File details:"
-              ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-              echo "Contents of target directory:"
-              ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
+            if [ -f "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip" ]; then
+              echo "✅ ARM64 package successfully created and moved"
+              ls -l "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip"
             else
-              echo "❌ Error: AMD64 package not found at expected location"
-              echo "Contents of $RUNNER_WORKSPACE/app/install/amd64/:"
-              ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
-              echo "Current directory contents:"
-              ls -la
+              echo "❌ Error: ARM64 package not found at expected location"
+              echo "Contents of $RUNNER_WORKSPACE/app/install/arm64/:"
+              ls -la "$RUNNER_WORKSPACE/app/install/arm64/"
               exit 1
             fi
           else
-            echo "Error: pkg 文件不存在：$PKG_PATH"
+            echo "Error: ARM64 pkg 文件不存在"
             echo "Contents of build/darwin/:"
             ls -la build/darwin/
             exit 1
           fi
 
-      - name: Verify Artifact Path
-        run: |
-          echo "Verifying artifact path before upload"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
-          echo "Expected artifact path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-          if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
-            echo "✅ Artifact file exists"
-            ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-          else
-            echo "❌ Artifact file not found"
-            echo "Contents of $RUNNER_WORKSPACE/app/install/amd64/:"
-            ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
-            exit 1
-          fi
-
-      - name: Upload AMD64 Artifact
+      - name: Upload ARM64 Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mac-amd64-package
-          path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip
+          name: mac-arm64-package
+          path: $RUNNER_WORKSPACE/app/install/arm64/macM1.zip
           retention-days: 1
           if-no-files-found: error
 
   release:
-    needs: [macos-amd64]
+    needs: [ macos-arm64]
     runs-on: macos-13
     steps:
       - name: Download AMD64 Artifact
