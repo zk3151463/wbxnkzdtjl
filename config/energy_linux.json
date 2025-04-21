@@ -6,10 +6,12 @@
   "outputFilename": "wbxnkzdtjl",
   "libemfs": "libs",
   "info": {
+    "title": "wbxnkzdtjl",
+    "wmClass": "wbxnkzdtjl",
     "icon": "@/resources/icon.png",
     "companyName": "wbxnkzdtjl",
     "productName": "wbxnkzdtjl",
-    "productVersion": "1.0.1",
+    "productVersion": "1.0.0",
     "comments": "Built using ENERGY (https://github.com/energye/energy)"
   },
   "dpkg": {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"wbxnkzdtjl/app/controller"
 
 	"github.com/energye/energy/v2/cef"
 	"github.com/energye/energy/v2/cef/ipc"
@@ -20,25 +19,13 @@ func main() {
 	//Global initialization must be called
 	cef.GlobalInit(nil, &resources)
 	//Create an application
-
 	app := cef.NewApplication()
 	app.SetUseMockKeyChain(true)
-	cef.BrowserWindow.Config.IconFS = " "
-	//Local load resources/*  */
+	//Local load resources
 	cef.BrowserWindow.Config.LocalResource(cef.LocalLoadConfig{
 		ResRootDir: "resources",
 		FS:         &resources,
 	}.Build())
-	//窗口的标题
-	cef.BrowserWindow.Config.Title = ""
-	//窗口宽高
-	cef.BrowserWindow.Config.Width = 1065
-	cef.BrowserWindow.Config.Height = 645
-	cef.BrowserWindow.Config.MinHeight = 645
-	cef.BrowserWindow.Config.MinWidth = 1065
-	// cef.BrowserWindow.Config.MaxHeight = 900
-	// cef.BrowserWindow.Config.MaxWidth = 1400
-
 	// run main process and main thread
 	cef.BrowserWindow.SetBrowserInit(browserInit)
 	//run app
@@ -47,13 +34,10 @@ func main() {
 
 // run main process and main thread
 func browserInit(event *cef.BrowserEvent, window cef.IBrowserWindow) {
-	lcl.Application.SetScaled(true)
-
 	// index.html ipc.emit("count", [count++])
-	// ipc.On("count", func(value int) {
-	// 	println("count", value)
-	// })
-	controller.Init(event, window)
+	ipc.On("count", func(value int) {
+		println("count", value)
+	})
 	// page load end
 	event.SetOnLoadEnd(func(sender lcl.IObject, browser *cef.ICefBrowser, frame *cef.ICefFrame, httpStatusCode int32, window cef.IBrowserWindow) {
 		// index.html, ipc.on("osInfo", function(){...})

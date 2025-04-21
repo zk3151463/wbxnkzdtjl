@@ -1,19 +1,17 @@
 {
-  "name": "wbxnkzdtjl",
+  "name": "wbxnk_jzqf",
   "projectPath": "@",
   "frameworkPath": "",
   "assetsDir": "assets",
-  "outputFilename": "wbxnkzdtjl",
+  "outputFilename": "wbxnk_jzqf",
   "libemfs": "libs",
   "info": {
-    "manifest": "@/wbxnkzdtjl.manifest",
+    "manifest": "@/wbxnk_jzqf.manifest",
     "icon": "@/resources/icon.ico",
-    "companyName": "wbxnkzdtjl",
-    "productName": "wbxnkzdtjl",
-    "cfBundleIdentifier": "cc.wbxnk.mkgjxr",
-    "Identifier": "cc.wbxnk.mkgjx",
-    "fileVersion": "1.0.1",
-    "productVersion": "1.0.1",
+    "companyName": "wbxnk_jzqf",
+    "productName": "wbxnk_jzqf",
+    "fileVersion": "1.0.0",
+    "productVersion": "1.0.0",
     "copyright": "Copyright.....",
     "comments": "Built using ENERGY (https://github.com/energye/energy)",
     "fileDescription": "Built using ENERGY (https://github.com/energye/energy)"
@@ -21,10 +19,11 @@
   "nsis": {
     "include": [],
     "exclude": ["cache"],
+    "shortCutName": "wbxnk_jzqf",
     "icon": "@/resources/icon.ico",
     "unIcon": "@/resources/icon.ico",
     "license": "",
-    "language": "SimpChinese",
+    "language": "english",
     "requestExecutionLevel": "admin",
     "compress": "7za",
     "compressName": "framework.7z"
@@ -32,12 +31,5 @@
   "author": {
     "name": "yanghy",
     "email": "snxamdf@126.com"
-  },
-  "application": {
-    "high-dpi-support": 1,
-    "command-line-args": "--high-dpi-support=1 --force-device-scale-factor=1 --disable-gpu-compositing --enable-begin-frame-scheduling",
-    "scale-factor": 1.0,
-    "auto-scale": true,
-    "scale-mode": "source-size"
   }
 }

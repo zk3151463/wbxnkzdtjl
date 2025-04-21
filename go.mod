@@ -1,10 +1,10 @@
-module wbxnkzdtjl
+module wbxnk_jzqf
 
 go 1.18
 
 require (
-	github.com/energye/energy/v2 v2.4.6
-	github.com/energye/golcl v1.0.12
+	github.com/energye/energy/v2 v2.5.4
+	github.com/energye/golcl v1.1.2
 )
 
 require (

@@ -1,35 +1,27 @@
 {
-  "name": "wbxnkamd",
+  "name": "wbxnkzdtjl",
   "projectPath": "@",
-  "frameworkPath": "",
   "assetsDir": "assets",
-  "outputFilename": "漫客工具箱",
+  "outputFilename": "wbxnkzdtjl",
   "helperFilePath": "",
   "plist": {
     "icon": "@/resources/icon.png",
-    "bundleName": "漫客工具箱",
-    "bundleDisplayName": "漫客工具箱",
-    "bundleIdentifier": "com.wbxnkgjx.app",
+    "bundleName": "wbxnkzdtjl",
+    "bundleDisplayName": "wbxnkzdtjl",
+    "bundleIdentifier": "wbxnkzdtjl",
     "locals": [
       "zh_CN",
       "en"
     ],
-    "bundleVersion": "1.0.1",
-    "bundleShortVersionString": "1.0.1",
+    "bundleVersion": "1.0.0",
+    "bundleShortVersionString": "1.0.0",
     "copyright": "Copyright.....",
     "comments": "Built using ENERGY (https://github.com/energye/energy)",
     "include": [],
     "exclude": ["cache"]
   },
   "author": {
-    "name": "漫客工具箱",
-    "email": "wbxnk-zk@qq.com"
-  },
-  "application": {
-    "high-dpi-support": 1,
-    "command-line-args": "--high-dpi-support=1 --force-device-scale-factor=1 --disable-gpu-compositing --enable-begin-frame-scheduling",
-    "scale-factor": 1.0,
-    "auto-scale": true,
-    "scale-mode": "source-size"
+    "name": "yanghy",
+    "email": "snxamdf@126.com"
   }
 }
