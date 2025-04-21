@@ -43,22 +43,36 @@ jobs:
           go install
           energy cli -v
      
-      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
+      # MacOSARM64 安装 ARM64 架构
       - name: Install ENERGY CEF ARM-64
         run: |
           cd $RUNNER_WORKSPACE/app
           energy install --all --arch=arm64
           energy env
-      # 编译和打包, 删除 build 文件夹 - 根据情况修改
+      # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
           
           energy build -o="漫客工具箱" --arch=arm64
-          energy package -f="漫客工具箱" -o="wbxnkM1" --pkg
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
+          # 检查并打包 ARM64 pkg 文件
+          PKG_PATH="build/darwin/漫客工具箱.pkg"
+          if [ -f "$PKG_PATH" ]; then
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "macM1.zip" "漫客工具箱.pkg"
+            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: ARM64 pkg 文件不存在"
+            find build/darwin -name "*.pkg"
+            exit 1
+          fi
       - name: Build and Package END
         run: |
           ls -al $RUNNER_WORKSPACE/app/install

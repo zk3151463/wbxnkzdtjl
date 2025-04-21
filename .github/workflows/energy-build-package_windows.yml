@@ -54,15 +54,21 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包, -o -f 改成你自己的
+      # cli 编译和打包 AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="wbxnkAMD64.exe"
-          energy package -f="wbxnkAMD64.exe" -o="wbxnkAMD64.exe" -c
+          energy build -o="漫客工具箱.exe"
+          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnkAMD64.exe" D:/app/install
+          # 创建临时目录用于打包
+          mkdir -p build/windows/temp
+          cp "build/windows/漫客工具箱.exe" build/windows/temp/
+          
+          # 使用 PowerShell 压缩文件
+          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/winamd64.zip' -Force"
+          mv "build/windows/temp/winamd64.zip" "D:/app/install/"
         shell: bash
 
       # windows 32 安装开发环境, --cef=109 版本号改成你使用的
@@ -73,15 +79,21 @@ jobs:
           energy env
         shell: bash
 
-      # cli 编译和打包, -o -f 改成你自己的
+      # cli 编译和打包 32位版本
       - name: Build and Package 32
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="wbxnk32.exe" --arch="386"
-          energy package -f="wbxnk32.exe" -o="wbxnk32.exe" -c
+          energy build -o="漫客工具箱.exe" --arch="386"
+          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
           
-          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/windows/wbxnk32.exe" D:/app/install
+          # 创建临时目录用于打包
+          mkdir -p build/windows/temp
+          cp "build/windows/漫客工具箱.exe" build/windows/temp/
+          
+          # 使用 PowerShell 压缩文件
+          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/win32.zip' -Force"
+          mv "build/windows/temp/win32.zip" "D:/app/install/"
         shell: bash
 
       - name: Build and Package END

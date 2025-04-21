@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  macos-amd64-amd64:
+  macos-amd64-arm64:
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
@@ -48,7 +48,7 @@ jobs:
           cd $RUNNER_WORKSPACE/app
           energy install --all
           energy env
-      # 编译和打包 - 根据情况修改
+      # 编译和打包 - AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
@@ -63,7 +63,7 @@ jobs:
           echo "构建后目录结构："
           ls -la
           file 漫客工具箱
-          energy package -f="漫客工具箱" -o="wbxnkamd" --pkg
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
           echo "打包后检查 darwin 目录："
           if [ -d "build/darwin" ]; then
@@ -76,17 +76,23 @@ jobs:
           fi
           
           # 检查 pkg 文件
-          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg"
+          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱.pkg"
+          
           if [ -f "$PKG_PATH" ]; then
             echo "pkg 文件存在：$PKG_PATH"
-            mv "$PKG_PATH" "$RUNNER_WORKSPACE/app/install"
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "macamd64.zip" "漫客工具箱.pkg"
+            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/"
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
             echo "查找所有 pkg 文件："
             find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
             exit 1
           fi
-     
       - name: Build and Package END
         run: |
           ls -al $RUNNER_WORKSPACE/app/install
