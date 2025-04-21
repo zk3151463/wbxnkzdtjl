@@ -1,17 +1,22 @@
-name: Energy Build and Package Windows
+name: Energy Build and Package MacOS
 
 on:
   workflow_dispatch:
   push:
     tags:
       - 'v*.*.*'
-
+      
 permissions:
   contents: write
 
 jobs:
-  windows-64:
-    runs-on: windows-2019
+  macos-amd64-arm64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macos-13 ]
+
     env:
       LANG: zh_CN.UTF-8
       LC_ALL: zh_CN.UTF-8
@@ -24,184 +29,107 @@ jobs:
         with:
           go-version: '1.20'
 
-      - name: Install NSIS
-        run: |
-          choco install nsis -y
-        shell: powershell
-
-      - name: Install NSIS Chinese Language Files
-        run: |
-          # 获取 NSIS 安装路径
-          $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          Write-Host ("NSIS Path: {0}" -f $NSIS_PATH)
-          
-          # 创建语言文件目录
-          $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
-          New-Item -ItemType Directory -Force -Path $LANG_PATH
-          
-          # 下载中文语言文件
-          $CHINESE_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          $SIMPLIFIED_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
-          
-          Invoke-WebRequest -Uri $CHINESE_URL -OutFile "$LANG_PATH\chinese.nlf"
-          Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
-          
-          # 验证文件是否下载成功
-          Write-Host "Language files in directory:"
-          Get-ChildItem -Path $LANG_PATH
-        shell: powershell
-
+      # 创建基础环境目录 - 不修改
       - name: Config Base Environment
         run: |
-          mkdir -p D:/app/install/amd64
-        shell: bash
-
+          mkdir $RUNNER_WORKSPACE/app
+          mkdir $RUNNER_WORKSPACE/app/install
+      # 安装 energy cli - 不修改
       - name: Install ENERGY CLI
         run: |
-          cd D:/app
+          cd $RUNNER_WORKSPACE/app
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
           energy cli -v
-        shell: bash
-
-      - name: Install ENERGY CEF 109-64
+      # MacOSX64 安装开发环境 - 根据情况修改
+      - name: Install ENERGY CEF AMD-64
         run: |
-          cd D:/app
-          energy install --all --cef=109
+          cd $RUNNER_WORKSPACE/app
+          energy install --all
           energy env
-        shell: bash
-
+      # 编译和打包 - AMD64
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           
-          energy build -o="漫客工具箱.exe"
-          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
+          echo "当前目录: $(pwd)"
           
-          mkdir -p build/windows/temp
-          cp "build/windows/漫客工具箱.exe" build/windows/temp/
+          # 构建前检查目录
+          echo "构建前目录结构："
+          ls -la
           
-          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/winamd64.zip' -Force"
-          mv "build/windows/temp/winamd64.zip" "D:/app/install/amd64/"
-        shell: bash
-
-      - name: Upload AMD64 Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-amd64-package
-          path: D:/app/install/amd64/
-          retention-days: 1
-
-  windows-32:
-    runs-on: windows-2019
-    env:
-      LANG: zh_CN.UTF-8
-      LC_ALL: zh_CN.UTF-8
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: '1.20'
-
-      - name: Install NSIS
+          energy build -o="漫客工具箱" 
+          echo "构建后目录结构："
+          ls -la
+          file 漫客工具箱
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
+          
+          echo "打包后检查 darwin 目录："
+          if [ -d "build/darwin" ]; then
+            echo "build/darwin 目录存在，内容如下："
+            ls -la build/darwin
+          else
+            echo "Error: build/darwin 目录不存在"
+            echo "build 目录内容："
+            ls -la build
+          fi
+          
+          # 检查 pkg 文件
+          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/漫客工具箱.pkg"
+          
+          if [ -f "$PKG_PATH" ]; then
+            echo "pkg 文件存在：$PKG_PATH"
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "macamd64.zip" "漫客工具箱.pkg"
+            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: pkg 文件不存在：$PKG_PATH"
+            echo "查找所有 pkg 文件："
+            find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
+            exit 1
+          fi
+      # MacOSARM64 安装 ARM64 架构
+      - name: Install ENERGY CEF ARM-macamd64
         run: |
-          choco install nsis -y
-        shell: powershell
-
-      - name: Install NSIS Chinese Language Files
-        run: |
-          # 获取 NSIS 安装路径
-          $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          Write-Host ("NSIS Path: {0}" -f $NSIS_PATH)
-          
-          # 创建语言文件目录
-          $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
-          New-Item -ItemType Directory -Force -Path $LANG_PATH
-          
-          # 下载中文语言文件
-          $CHINESE_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          $SIMPLIFIED_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
-          
-          Invoke-WebRequest -Uri $CHINESE_URL -OutFile "$LANG_PATH\chinese.nlf"
-          Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
-          
-          # 验证文件是否下载成功
-          Write-Host "Language files in directory:"
-          Get-ChildItem -Path $LANG_PATH
-        shell: powershell
-
-      - name: Config Base Environment
-        run: |
-          mkdir -p D:/app/install/386
-        shell: bash
-
-      - name: Install ENERGY CLI
-        run: |
-          cd D:/app
-          git clone https://github.com/energye/energy.git
-          cd energy/cmd/energy
-          go install
-          energy cli -v
-        shell: bash
-
-      - name: Install ENERGY CEF 109-32
-        run: |
-          cd D:/app
-          energy install --all --cef=109 --arch=386
+          cd $RUNNER_WORKSPACE/app
+          energy install --all --arch=arm64
           energy env
-        shell: bash
-
-      - name: Build and Package 32
+      # 编译和打包 ARM64
+      - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          rm -rf build
           
-          energy build -o="漫客工具箱.exe" --arch="386"
-          energy package -f="漫客工具箱.exe" -o="漫客工具箱.exe" -c
+          energy build -o="漫客工具箱" --arch=arm64
+          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
-          mkdir -p build/windows/temp
-          cp "build/windows/漫客工具箱.exe" build/windows/temp/
-          
-          powershell -Command "Compress-Archive -Path 'build/windows/temp/漫客工具箱.exe' -DestinationPath 'build/windows/temp/win32.zip' -Force"
-          mv "build/windows/temp/win32.zip" "D:/app/install/386/"
-        shell: bash
-
-      - name: Upload 32-bit Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-32-package
-          path: D:/app/install/386/
-          retention-days: 1
-
-  release:
-    needs: [windows-64, windows-32]
-    runs-on: windows-2019
-    steps:
-      - name: Download AMD64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: win-amd64-package
-          path: D:/app/install/amd64
-
-      - name: Download 32-bit Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: win-32-package
-          path: D:/app/install/386
-
-      - name: Check Install Directory
+          # 检查并打包 ARM64 pkg 文件
+          PKG_PATH="build/darwin/漫客工具箱.pkg"
+          if [ -f "$PKG_PATH" ]; then
+            # 创建临时目录用于打包
+            mkdir -p build/darwin/temp
+            cp "$PKG_PATH" build/darwin/temp/
+            cd build/darwin/temp
+            # 将 pkg 打包成 zip
+            zip -r "macM1.zip" "漫客工具箱.pkg"
+            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/"
+          else
+            echo "Error: ARM64 pkg 文件不存在"
+            find build/darwin -name "*.pkg"
+            exit 1
+          fi
+      - name: Build and Package END
         run: |
-          ls -al D:/app/install/
-        shell: bash
-
-      - name: Release Dynamic library
+          ls -al $RUNNER_WORKSPACE/app/install
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: D:/app/install/**
+          files: "../app/install/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

@@ -10,8 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  macos-amd64:
-    runs-on: macos-13
+  macos-amd64-amd64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macos-13 ]
+
     env:
       LANG: zh_CN.UTF-8
       LC_ALL: zh_CN.UTF-8
@@ -24,120 +29,71 @@ jobs:
         with:
           go-version: '1.20'
 
+      # 创建基础环境目录 - 不修改
       - name: Config Base Environment
         run: |
-          echo "Current directory: $(pwd)"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
-          mkdir -p "$RUNNER_WORKSPACE/app/install/amd64"
-          echo "Created directory: $RUNNER_WORKSPACE/app/install/amd64"
-          ls -la "$RUNNER_WORKSPACE/app/install/amd64"
-
+          mkdir $RUNNER_WORKSPACE/app
+          mkdir $RUNNER_WORKSPACE/app/install
+      # 安装 energy cli - 不修改
       - name: Install ENERGY CLI
         run: |
-          cd "$RUNNER_WORKSPACE/app"
+          cd $RUNNER_WORKSPACE/app
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
           energy cli -v
-
+      # MacOSX64 安装开发环境 - 根据情况修改
       - name: Install ENERGY CEF AMD-64
         run: |
-          cd "$RUNNER_WORKSPACE/app"
+          cd $RUNNER_WORKSPACE/app
           energy install --all
           energy env
-
+      # 编译和打包 - 根据情况修改
       - name: Build and Package AMD64
         run: |
-          cd "$RUNNER_WORKSPACE/wbxnkzdtjl"
-          echo "Current directory: $(pwd)"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
+          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          
+          echo "当前目录: $(pwd)"
+          
+          # 构建前检查目录
+          echo "构建前目录结构："
+          ls -la
           
           energy build -o="漫客工具箱" 
-          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
+          echo "构建后目录结构："
+          ls -la
+          file 漫客工具箱
+          energy package -f="漫客工具箱" -o="wbxnkamd" --pkg
           
-          PKG_PATH="build/darwin/漫客工具箱.pkg"
-          echo "Checking PKG file: $PKG_PATH"
+          echo "打包后检查 darwin 目录："
+          if [ -d "build/darwin" ]; then
+            echo "build/darwin 目录存在，内容如下："
+            ls -la build/darwin
+          else
+            echo "Error: build/darwin 目录不存在"
+            echo "build 目录内容："
+            ls -la build
+          fi
+          
+          # 检查 pkg 文件
+          PKG_PATH="$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkamd.pkg"
           if [ -f "$PKG_PATH" ]; then
-            echo "PKG file exists"
-            mkdir -p build/darwin/temp
-            cp "$PKG_PATH" build/darwin/temp/
-            cd build/darwin/temp
-            echo "Current directory: $(pwd)"
-            zip -r "macamd64.zip" "漫客工具箱.pkg"
-            echo "Created zip file"
-            ls -la
-            echo "Moving zip file to: $RUNNER_WORKSPACE/app/install/amd64/"
-            mkdir -p "$RUNNER_WORKSPACE/app/install/amd64"
-            mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/amd64/"
-            echo "Moved zip file"
-            
-            # 检查文件是否成功移动
-            if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
-              echo "✅ AMD64 package successfully created and moved"
-              echo "File details:"
-              ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-              echo "Contents of target directory:"
-              ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
-            else
-              echo "❌ Error: AMD64 package not found at expected location"
-              echo "Contents of $RUNNER_WORKSPACE/app/install/amd64/:"
-              ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
-              echo "Current directory contents:"
-              ls -la
-              exit 1
-            fi
+            echo "pkg 文件存在：$PKG_PATH"
+            mv "$PKG_PATH" "$RUNNER_WORKSPACE/app/install"
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
-            echo "Contents of build/darwin/:"
-            ls -la build/darwin/
+            echo "查找所有 pkg 文件："
+            find $RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin -name "*.pkg"
             exit 1
           fi
-
-      - name: Verify Artifact Path
+     
+      - name: Build and Package END
         run: |
-          echo "Verifying artifact path before upload"
-          echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
-          echo "Expected artifact path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-          if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
-            echo "✅ Artifact file exists"
-            ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
-          else
-            echo "❌ Artifact file not found"
-            echo "Contents of $RUNNER_WORKSPACE/app/install/amd64/:"
-            ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
-            exit 1
-          fi
-
-      - name: Upload AMD64 Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac-amd64-package
-          path: $RUNNER_WORKSPACE/app/install/amd64/macamd64.zip
-          retention-days: 1
-          if-no-files-found: error
-
-  release:
-    needs: [macos-amd64]
-    runs-on: macos-13
-    steps:
-      - name: Download AMD64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: mac-amd64-package
-          path: $RUNNER_WORKSPACE/app/install/amd64
-
-      - name: Check Install Directory
-        run: |
-          echo "Checking install directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install
-          echo "Checking AMD64 directory contents:"
-          ls -al $RUNNER_WORKSPACE/app/install/amd64
-
-
-      - name: Release Dynamic library
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: $RUNNER_WORKSPACE/app/install/**
+          files: "../app/install/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

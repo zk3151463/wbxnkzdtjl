@@ -10,8 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  macos-arm64:
-    runs-on: macos-13
+  macos-amd64-arm64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macos-13 ]
+
     env:
       LANG: zh_CN.UTF-8
       LC_ALL: zh_CN.UTF-8
@@ -24,96 +29,43 @@ jobs:
         with:
           go-version: '1.20'
 
+      # 创建基础环境目录 - 不修改
       - name: Config Base Environment
         run: |
-          echo "Current directory: $(pwd)"
-          mkdir -p "$RUNNER_WORKSPACE/app/install/arm64"
-          echo "Created directory: $RUNNER_WORKSPACE/app/install/arm64"
-          ls -la "$RUNNER_WORKSPACE/app/install/arm64"
-
+          mkdir $RUNNER_WORKSPACE/app
+          mkdir $RUNNER_WORKSPACE/app/install
+      # 安装 energy cli - 不修改
       - name: Install ENERGY CLI
         run: |
-          cd "$RUNNER_WORKSPACE/app"
+          cd $RUNNER_WORKSPACE/app
           git clone https://github.com/energye/energy.git
           cd energy/cmd/energy
           go install
           energy cli -v
-
+     
+      # MacOSARM64 安装 ARM64 架构 - 根据情况修改
       - name: Install ENERGY CEF ARM-64
         run: |
-          cd "$RUNNER_WORKSPACE/app"
+          cd $RUNNER_WORKSPACE/app
           energy install --all --arch=arm64
           energy env
-
+      # 编译和打包, 删除 build 文件夹 - 根据情况修改
       - name: Build and Package ARM64
         run: |
-          cd "$RUNNER_WORKSPACE/wbxnkzdtjl"
-          echo "Current directory: $(pwd)"
+          cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          rm -rf build
           
           energy build -o="漫客工具箱" --arch=arm64
-          energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
+          energy package -f="漫客工具箱" -o="wbxnkM1" --pkg
           
-          PKG_PATH="build/darwin/漫客工具箱.pkg"
-          echo "Checking PKG file: $PKG_PATH"
-          if [ -f "$PKG_PATH" ]; then
-            echo "PKG file exists"
-            mkdir -p build/darwin/temp
-            cp "$PKG_PATH" build/darwin/temp/
-            cd build/darwin/temp
-            echo "Current directory: $(pwd)"
-            zip -r "macM1.zip" "漫客工具箱.pkg"
-            echo "Created zip file"
-            ls -la
-            mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/arm64/"
-            echo "Moved zip file to: $RUNNER_WORKSPACE/app/install/arm64/"
-            
-            # 检查文件是否成功移动
-            if [ -f "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip" ]; then
-              echo "✅ ARM64 package successfully created and moved"
-              ls -l "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip"
-            else
-              echo "❌ Error: ARM64 package not found at expected location"
-              echo "Contents of $RUNNER_WORKSPACE/app/install/arm64/:"
-              ls -la "$RUNNER_WORKSPACE/app/install/arm64/"
-              exit 1
-            fi
-          else
-            echo "Error: ARM64 pkg 文件不存在"
-            echo "Contents of build/darwin/:"
-            ls -la build/darwin/
-            exit 1
-          fi
-
-      - name: Upload ARM64 Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac-arm64-package
-          path: $RUNNER_WORKSPACE/app/install/arm64/macM1.zip
-          retention-days: 1
-          if-no-files-found: error
-
-  release:
-    needs: [ macos-arm64]
-    runs-on: macos-13
-    steps:
-     
-      - name: Download ARM64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: mac-arm64-package
-          path: $RUNNER_WORKSPACE/app/install/arm64
-
-      - name: Check Install Directory
+          mv "$RUNNER_WORKSPACE/wbxnkzdtjl/build/darwin/wbxnkM1.pkg" "$RUNNER_WORKSPACE/app/install"
+      - name: Build and Package END
         run: |
-          echo "Checking install directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install
-          echo "Checking ARM64 directory contents:"
-          ls -al $RUNNER_WORKSPACE/app/install/arm64
-
-      - name: Release Dynamic library
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: $RUNNER_WORKSPACE/app/install/**
+          files: "../app/install/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
