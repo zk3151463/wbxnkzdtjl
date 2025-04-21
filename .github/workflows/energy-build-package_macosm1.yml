@@ -96,12 +96,7 @@ jobs:
     needs: [ macos-arm64]
     runs-on: macos-13
     steps:
-      - name: Download AMD64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: mac-amd64-package
-          path: $RUNNER_WORKSPACE/app/install/amd64
-
+     
       - name: Download ARM64 Artifact
         uses: actions/download-artifact@v4
         with:
@@ -112,8 +107,6 @@ jobs:
         run: |
           echo "Checking install directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install
-          echo "Checking AMD64 directory contents:"
-          ls -al $RUNNER_WORKSPACE/app/install/amd64
           echo "Checking ARM64 directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install/arm64
 

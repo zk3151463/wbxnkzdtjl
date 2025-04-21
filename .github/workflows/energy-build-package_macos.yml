@@ -126,20 +126,13 @@ jobs:
           name: mac-amd64-package
           path: $RUNNER_WORKSPACE/app/install/amd64
 
-      - name: Download ARM64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: mac-arm64-package
-          path: $RUNNER_WORKSPACE/app/install/arm64
-
       - name: Check Install Directory
         run: |
           echo "Checking install directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install
           echo "Checking AMD64 directory contents:"
           ls -al $RUNNER_WORKSPACE/app/install/amd64
-          echo "Checking ARM64 directory contents:"
-          ls -al $RUNNER_WORKSPACE/app/install/arm64
+
 
       - name: Release Dynamic library
         uses: softprops/action-gh-release@v2
