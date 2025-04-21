@@ -33,19 +33,22 @@ jobs:
         run: |
           # 获取 NSIS 安装路径
           $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          echo "NSIS Path: $NSIS_PATH"
+          Write-Host "NSIS Path: $NSIS_PATH"
           
           # 创建语言文件目录
           $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
-          mkdir -p "$LANG_PATH"
+          New-Item -ItemType Directory -Force -Path $LANG_PATH
           
           # 下载中文语言文件
-          curl -L -o "$LANG_PATH\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          curl -L -o "$LANG_PATH\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          $CHINESE_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          $SIMPLIFIED_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          
+          Invoke-WebRequest -Uri $CHINESE_URL -OutFile "$LANG_PATH\chinese.nlf"
+          Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
           
           # 验证文件是否下载成功
-          echo "Language files in $LANG_PATH:"
-          ls "$LANG_PATH"
+          Write-Host "Language files in $LANG_PATH:"
+          Get-ChildItem -Path $LANG_PATH
         shell: powershell
 
       - name: Config Base Environment
@@ -113,19 +116,22 @@ jobs:
         run: |
           # 获取 NSIS 安装路径
           $NSIS_PATH = (Get-Command makensis).Source | Split-Path -Parent
-          echo "NSIS Path: $NSIS_PATH"
+          Write-Host "NSIS Path: $NSIS_PATH"
           
           # 创建语言文件目录
           $LANG_PATH = Join-Path $NSIS_PATH "Contrib\Language files"
-          mkdir -p "$LANG_PATH"
+          New-Item -ItemType Directory -Force -Path $LANG_PATH
           
           # 下载中文语言文件
-          curl -L -o "$LANG_PATH\chinese.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
-          curl -L -o "$LANG_PATH\chinese_simplified.nlf" "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          $CHINESE_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese.nlf"
+          $SIMPLIFIED_URL = "https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language%20files/chinese_simplified.nlf"
+          
+          Invoke-WebRequest -Uri $CHINESE_URL -OutFile "$LANG_PATH\chinese.nlf"
+          Invoke-WebRequest -Uri $SIMPLIFIED_URL -OutFile "$LANG_PATH\chinese_simplified.nlf"
           
           # 验证文件是否下载成功
-          echo "Language files in $LANG_PATH:"
-          ls "$LANG_PATH"
+          Write-Host "Language files in $LANG_PATH:"
+          Get-ChildItem -Path $LANG_PATH
         shell: powershell
 
       - name: Config Base Environment

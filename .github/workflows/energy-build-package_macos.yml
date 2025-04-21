@@ -26,7 +26,10 @@ jobs:
 
       - name: Config Base Environment
         run: |
+          echo "Current directory: $(pwd)"
           mkdir -p $RUNNER_WORKSPACE/app/install/amd64
+          echo "Created directory: $RUNNER_WORKSPACE/app/install/amd64"
+          ls -la $RUNNER_WORKSPACE/app/install/amd64
 
       - name: Install ENERGY CLI
         run: |
@@ -45,16 +48,24 @@ jobs:
       - name: Build and Package AMD64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          echo "Current directory: $(pwd)"
+          
           energy build -o="漫客工具箱" 
           energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
           PKG_PATH="build/darwin/漫客工具箱.pkg"
+          echo "Checking PKG file: $PKG_PATH"
           if [ -f "$PKG_PATH" ]; then
+            echo "PKG file exists"
             mkdir -p build/darwin/temp
             cp "$PKG_PATH" build/darwin/temp/
             cd build/darwin/temp
+            echo "Current directory: $(pwd)"
             zip -r "macamd64.zip" "漫客工具箱.pkg"
+            echo "Created zip file"
+            ls -la
             mv "macamd64.zip" "$RUNNER_WORKSPACE/app/install/amd64/"
+            echo "Moved zip file to: $RUNNER_WORKSPACE/app/install/amd64/"
             
             # 检查文件是否成功移动
             if [ -f "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip" ]; then
@@ -62,12 +73,14 @@ jobs:
               ls -l "$RUNNER_WORKSPACE/app/install/amd64/macamd64.zip"
             else
               echo "❌ Error: AMD64 package not found at expected location"
+              echo "Contents of $RUNNER_WORKSPACE/app/install/amd64/:"
               ls -la "$RUNNER_WORKSPACE/app/install/amd64/"
               exit 1
             fi
           else
             echo "Error: pkg 文件不存在：$PKG_PATH"
-            find build/darwin -name "*.pkg"
+            echo "Contents of build/darwin/:"
+            ls -la build/darwin/
             exit 1
           fi
 
@@ -95,7 +108,10 @@ jobs:
 
       - name: Config Base Environment
         run: |
+          echo "Current directory: $(pwd)"
           mkdir -p $RUNNER_WORKSPACE/app/install/arm64
+          echo "Created directory: $RUNNER_WORKSPACE/app/install/arm64"
+          ls -la $RUNNER_WORKSPACE/app/install/arm64
 
       - name: Install ENERGY CLI
         run: |
@@ -114,16 +130,24 @@ jobs:
       - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
+          echo "Current directory: $(pwd)"
+          
           energy build -o="漫客工具箱" --arch=arm64
           energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           
           PKG_PATH="build/darwin/漫客工具箱.pkg"
+          echo "Checking PKG file: $PKG_PATH"
           if [ -f "$PKG_PATH" ]; then
+            echo "PKG file exists"
             mkdir -p build/darwin/temp
             cp "$PKG_PATH" build/darwin/temp/
             cd build/darwin/temp
+            echo "Current directory: $(pwd)"
             zip -r "macM1.zip" "漫客工具箱.pkg"
+            echo "Created zip file"
+            ls -la
             mv "macM1.zip" "$RUNNER_WORKSPACE/app/install/arm64/"
+            echo "Moved zip file to: $RUNNER_WORKSPACE/app/install/arm64/"
             
             # 检查文件是否成功移动
             if [ -f "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip" ]; then
@@ -131,12 +155,14 @@ jobs:
               ls -l "$RUNNER_WORKSPACE/app/install/arm64/macM1.zip"
             else
               echo "❌ Error: ARM64 package not found at expected location"
+              echo "Contents of $RUNNER_WORKSPACE/app/install/arm64/:"
               ls -la "$RUNNER_WORKSPACE/app/install/arm64/"
               exit 1
             fi
           else
             echo "Error: ARM64 pkg 文件不存在"
-            find build/darwin -name "*.pkg"
+            echo "Contents of build/darwin/:"
+            ls -la build/darwin/
             exit 1
           fi
 
