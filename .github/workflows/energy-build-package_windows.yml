@@ -24,6 +24,20 @@ jobs:
         with:
           go-version: '1.20'
 
+      - name: Install NSIS
+        run: |
+          choco install nsis -y
+        shell: powershell
+
+      - name: Install NSIS Chinese Language Files
+        run: |
+          # 创建语言文件目录
+          mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
+          # 下载中文语言文件
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese.nlf
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese_simplified.nlf
+        shell: bash
+
       - name: Config Base Environment
         run: |
           mkdir D:/app
@@ -74,6 +88,20 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: '1.20'
+
+      - name: Install NSIS
+        run: |
+          choco install nsis -y
+        shell: powershell
+
+      - name: Install NSIS Chinese Language Files
+        run: |
+          # 创建语言文件目录
+          mkdir -p "C:\Program Files (x86)\NSIS\Contrib\Language files"
+          # 下载中文语言文件
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese.nlf
+          curl -L -o "C:\Program Files (x86)\NSIS\Contrib\Language files\chinese_simplified.nlf" https://raw.githubusercontent.com/NSIS-Dev/NSIS/master/Contrib/Language files/chinese_simplified.nlf
+        shell: bash
 
       - name: Config Base Environment
         run: |
