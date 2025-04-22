@@ -46,7 +46,7 @@ jobs:
       - name: Install ENERGY CEF AMD-64
         run: |
           cd $RUNNER_WORKSPACE/app
-          energy install --all
+          energy install --all --cef 109 
           energy env
       # 编译和打包 - AMD64
       - name: Build and Package AMD64

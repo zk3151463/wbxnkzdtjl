@@ -47,14 +47,13 @@ jobs:
       - name: Install ENERGY CEF ARM-64
         run: |
           cd $RUNNER_WORKSPACE/app
-          energy install --all --arch=arm64
+          energy install --all --arch=arm64 --cef 109 
           energy env
       # 编译和打包 ARM64
       - name: Build and Package ARM64
         run: |
           cd $RUNNER_WORKSPACE/wbxnkzdtjl
           rm -rf build
-          
           energy build -o="漫客工具箱" --arch=arm64
           energy package -f="漫客工具箱" -o="漫客工具箱" --pkg
           

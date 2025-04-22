@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # 当前支持的最新CEF版本, 手动配置更新z
-LatestVer="130.1.16"
+LatestVer="109.1.18"
 ARCH=$(dpkg --print-architecture)
 
 echo "LatestVer: $LatestVer, ARCH: $ARCH"
