@@ -21,6 +21,11 @@ func main() {
 	//Create an application
 	app := cef.NewApplication()
 	app.SetUseMockKeyChain(true)
+	cef.BrowserWindow.Config.Width = 1086
+	cef.BrowserWindow.Config.MinWidth = 1086
+	cef.BrowserWindow.Config.MinHeight = 656
+	cef.BrowserWindow.Config.Height = 656
+
 	//Local load resources
 	cef.BrowserWindow.Config.LocalResource(cef.LocalLoadConfig{
 		ResRootDir: "resources",

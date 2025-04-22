@@ -1,27 +1,27 @@
-import * as AntIcon from '@ant-design/icons-vue';
-import { createApp } from 'vue';
-import App from './App.vue';
-import './assets/global.less';
-import components from './components/global';
-import Router from './router/index';
-import Antd from 'ant-design-vue';
-import './assets/global.less';
-import './assets/theme.less';
-import 'ant-design-vue/dist/reset.css';
+import {
+	createApp
+} from 'vue'
+import ViewUIPlus from 'view-ui-plus'
+import 'view-ui-plus/dist/styles/viewuiplus.css';
+import App from './App.vue'
+import router from './router'
+import store from './store'
+// import IpcRenderer from '@/utils/ipcRenderer'
+import 'view-ui-plus/dist/styles/viewuiplus.css'
+import './theme/index.less';
+// import * as socketApi from '@/api/socket.js'
+import ContextMenu from "web-contextmenu";
+
+// import vue3videoPlay from 'vue3-video-play' // 引入组件
+// import 'vue3-video-play/dist/style.css' // 引入css
+
 
 const app = createApp(App)
-app.config.productionTip = false
-
-// components
-for (const i in components) {
-  app.component(i, components[i])
-}
-// icon
-for (const i in AntIcon) {
-  const whiteList = ['createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor', 'default']
-  if (!whiteList.includes(i)) {
-    app.component(i, AntIcon[i])
-  }
-}
-
-app.use(Antd).use(Router).mount('#app')
+app.use(ContextMenu);
+// app.config.globalProperties.$socketApi = socketApi
+app.use(store)
+	.use(ViewUIPlus)
+	.use(router)
+	// .use(IpcRenderer)
+	// .use(vue3videoPlay)
+	.mount('#app')
